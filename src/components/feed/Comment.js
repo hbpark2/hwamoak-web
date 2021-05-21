@@ -1,11 +1,23 @@
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FatText } from '../shared';
-import sanitizeHtml from 'sanitize-html';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
+
+const DELETE_COMMENT = gql`
+  mutation deleteComment($id: Int!) {
+    deleteComment(id: $id) {
+      ok
+    }
+  }
+`;
+
 const CommentContainer = styled.div``;
 const CommentCaption = styled.span`
   margin-left: 10px;
-  mark {
+  a {
     background-color: inherit;
     color: ${props => props.theme.accent};
     cursor: pointer;
@@ -14,27 +26,61 @@ const CommentCaption = styled.span`
     }
   }
 `;
-const Comment = ({ author, payload }) => {
-  const cleanedPayload = sanitizeHtml(
-    payload.replace(/#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g, '<mark>$&</mark>'),
-    { allowedTags: ['mark'] },
-  );
+const Comment = ({ id, photoId, author, payload, isMine }) => {
+  const updateDeleteComment = (cache, result) => {
+    const {
+      data: {
+        deleteComment: { ok },
+      },
+    } = result;
+    if (ok) {
+      //evict : 삭제
+      cache.evict({ id: `Comment:${id}` });
+      cache.modify({
+        id: `Photo:${photoId}`,
+        fields: {
+          commentNumber(prev) {
+            return prev - 1;
+          },
+        },
+      });
+    }
+  };
+
+  const [deleteCommentMutation] = useMutation(DELETE_COMMENT, {
+    variables: { id },
+    update: updateDeleteComment,
+  });
+
+  const onDeleteClick = () => {
+    deleteCommentMutation();
+  };
 
   return (
     <CommentContainer>
       <FatText>{author}</FatText>
-      <CommentCaption
-        dangerouslySetInnerHTML={{
-          __html: cleanedPayload,
-        }}
-      ></CommentCaption>
+      <CommentCaption>
+        {payload.split(' ').map((word, index) =>
+          /#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) ? (
+            <React.Fragment key={index}>
+              <Link to={`/hastags/${word}`}>{word}</Link>{' '}
+            </React.Fragment>
+          ) : (
+            <React.Fragment key={index}>{word} </React.Fragment>
+          ),
+        )}
+      </CommentCaption>
+      {isMine ? <button onClick={onDeleteClick}>delete</button> : null}
     </CommentContainer>
   );
 };
 
 Comment.propTypes = {
-  author: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  photoId: PropTypes.number,
+  author: PropTypes.string,
   payload: PropTypes.string.isRequired,
+  isMine: PropTypes.bool.isRequired,
 };
 
 export default Comment;

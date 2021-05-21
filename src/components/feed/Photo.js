@@ -95,30 +95,21 @@ const Photo = ({
     if (ok) {
       console.log('time to update the cache ');
 
-      const fragmentId = `Photo:${id}`;
-      const fragment = gql`
-        fragment BSName on Photo {
-          isLiked
-          likes
-        }
-      `;
-
-      const result = cache.readFragment({
-        id: fragmentId,
-        fragment,
-      });
-
-      if ('isLiked' in result && 'likes' in result) {
-        const { isLiked: cacheIsLiked, likes: cacheLikes } = result;
-        cache.writeFragment({
-          id: fragmentId,
-          fragment,
-          data: {
-            isLiked: !cacheIsLiked,
-            likes: cacheLikes ? likes - 1 : likes + 1,
+      const photoId = `Photo:${id}`;
+      cache.modify({
+        id: photoId,
+        fields: {
+          isLiked(prev) {
+            return !prev;
           },
-        });
-      }
+          likes(prev) {
+            if (isLiked) {
+              return prev - 1;
+            }
+            return prev + 1;
+          },
+        },
+      });
     }
   };
 
@@ -160,6 +151,7 @@ const Photo = ({
         </PhotoActions>
         <Likes>{likes === 1 ? '1 like' : `${likes} like`}</Likes>
         <Comments
+          photoId={id}
           author={user.username}
           caption={caption}
           comments={comments}
