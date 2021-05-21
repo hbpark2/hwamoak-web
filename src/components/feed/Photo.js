@@ -75,10 +75,48 @@ const Likes = styled(FatText)`
 `;
 
 const Photo = ({ id, user, file, isLiked, likes }) => {
+  const updateToggleLike = (cache, result) => {
+    console.log(cache, result);
+    const {
+      data: {
+        toggleLike: { ok },
+      },
+    } = result;
+    if (ok) {
+      console.log('time to update the cache ');
+
+      const fragmentId = `Photo:${id}`;
+      const fragment = gql`
+        fragment BSName on Photo {
+          isLiked
+          likes
+        }
+      `;
+
+      const result = cache.readFragment({
+        id: fragmentId,
+        fragment,
+      });
+
+      if ('isLiked' in result && 'likes' in result) {
+        const { isLiked: cacheIsLiked, likes: cacheLikes } = result;
+        cache.writeFragment({
+          id: fragmentId,
+          fragment,
+          data: {
+            isLiked: !cacheIsLiked,
+            likes: cacheLikes ? likes - 1 : likes + 1,
+          },
+        });
+      }
+    }
+  };
+
   const [toggleLikeMutation, { loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: {
       id,
     },
+    update: updateToggleLike,
   });
 
   return (
