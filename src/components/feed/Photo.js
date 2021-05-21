@@ -12,6 +12,7 @@ import { FatText } from '../shared';
 import Avatar from '../Avatar';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import Comments from './Comments';
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -74,7 +75,16 @@ const Likes = styled(FatText)`
   margin-top: 15px;
 `;
 
-const Photo = ({ id, user, file, isLiked, likes }) => {
+const Photo = ({
+  id,
+  user,
+  file,
+  isLiked,
+  likes,
+  caption,
+  commentNumber,
+  comments,
+}) => {
   const updateToggleLike = (cache, result) => {
     console.log(cache, result);
     const {
@@ -112,7 +122,7 @@ const Photo = ({ id, user, file, isLiked, likes }) => {
     }
   };
 
-  const [toggleLikeMutation, { loading }] = useMutation(TOGGLE_LIKE_MUTATION, {
+  const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: {
       id,
     },
@@ -149,6 +159,12 @@ const Photo = ({ id, user, file, isLiked, likes }) => {
           </div>
         </PhotoActions>
         <Likes>{likes === 1 ? '1 like' : `${likes} like`}</Likes>
+        <Comments
+          author={user.username}
+          caption={caption}
+          comments={comments}
+          commentNumber={commentNumber}
+        />
       </PhotoData>
     </PhotoContainer>
   );
@@ -160,9 +176,11 @@ Photo.propTypes = {
     avatar: PropTypes.string,
     username: PropTypes.string.isRequired,
   }),
+  caption: PropTypes.string,
   file: PropTypes.string.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
+  commentNumber: PropTypes.number.isRequired,
 };
 
 export default Photo;
