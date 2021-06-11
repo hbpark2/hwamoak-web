@@ -58,7 +58,9 @@ const Comment = ({ id, photoId, author, payload, isMine }) => {
 
   return (
     <CommentContainer>
-      <FatText>{author}</FatText>
+      <Link to={`/users/${author}`}>
+        <FatText>{author}</FatText>
+      </Link>
       <CommentCaption>
         {payload.split(' ').map((word, index) =>
           /#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) ? (
@@ -80,7 +82,7 @@ Comment.propTypes = {
   photoId: PropTypes.number,
   author: PropTypes.string,
   payload: PropTypes.string.isRequired,
-  isMine: PropTypes.bool.isRequired,
+  isMine: PropTypes.bool,
 };
 
 export default Comment;

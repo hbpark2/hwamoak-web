@@ -40,6 +40,7 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }) => {
         createComment: { ok, id },
       },
     } = result;
+
     if (ok && userData?.me) {
       const newComment = {
         __typename: 'Comment',

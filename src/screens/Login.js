@@ -17,7 +17,7 @@ import Input from '../components/auth/Input';
 import Notification from '../components/auth/Notification';
 import Separator from '../components/auth/Separator';
 import { PageTitle } from '../components/PageTitle';
-
+import Logo from 'assets/flower-pot.png';
 import routes from '../routes';
 
 const FacebookLogin = styled.div`
@@ -27,7 +27,11 @@ const FacebookLogin = styled.div`
     font-weight: 600;
   }
 `;
-
+const SLogo = styled.img`
+  display: block;
+  width: 40px;
+  margin: 0 auto;
+`;
 const LOGIN_MUTATION = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
@@ -88,6 +92,7 @@ function Login() {
       <PageTitle title="Login" />
       <FormBox>
         <div>
+          {/* <SLogo src={Logo} alt="logo" /> */}
           <FontAwesomeIcon icon={faInstagram} size="3x" />
         </div>
         <Notification message={location?.state?.message} />

@@ -10,6 +10,7 @@ import routes from './routes';
 import { HelmetProvider } from 'react-helmet-async';
 import { client, darkModeVar, isLoggedInVar } from './apollo';
 import Layout from './components/Layout';
+import Profile from './screens/Profile';
 const App = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const darkMode = useReactiveVar(darkModeVar);
@@ -30,13 +31,16 @@ const App = () => {
                   <Login />
                 )}
               </Route>
-
               {!isLoggedIn ? (
                 <Route path={routes.signUp}>
                   <SignUp />
                 </Route>
               ) : null}
-
+              <Route path={`/users/:username`}>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </Route>
               <Route>
                 <NotFound />
               </Route>
