@@ -17,6 +17,7 @@ import WaterIcon from 'assets/water-drop.png';
 import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from './components/Gauge';
+import { useHistory } from 'react-router';
 
 const Container = styled.div`
   padding-bottom: 30px;
@@ -168,6 +169,7 @@ const UploadPlantPresenter = () => {
   const [water, setWater] = useState(20);
   const [sunlight, setSunlight] = useState(20);
   const [temperature, setTemperature] = useState(20);
+  const history = useHistory();
 
   const onFileChange = async e => {
     const {
@@ -183,7 +185,6 @@ const UploadPlantPresenter = () => {
         const src = await getBase64Format(theFile);
         setPreviewPhoto(src);
         setPreviewPhotos([...previewPhotos, src]);
-
         setFileList([...fileList, file]);
       }
     }
@@ -209,6 +210,7 @@ const UploadPlantPresenter = () => {
         temperature: temperature,
       },
     });
+    history.goBack();
   };
 
   console.log(previewPhoto);
