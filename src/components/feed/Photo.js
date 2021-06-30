@@ -8,8 +8,8 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FatText } from '../shared';
-import Avatar from '../Avatar';
+import { FatText } from 'components/shared';
+import Avatar from 'components/Avatar';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import Comments from './Comments';
@@ -25,9 +25,9 @@ const TOGGLE_LIKE_MUTATION = gql`
 `;
 
 const PhotoContainer = styled.div`
-  background-color: white;
+  background-color: #f6f5e8;
   max-width: 615px;
-  border: 1px solid ${props => props.theme.borderColor};
+  border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
   margin: 0 auto;
   margin-bottom: 60px;

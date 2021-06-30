@@ -1,24 +1,22 @@
 import { gql, useMutation } from '@apollo/client';
-import {
-  faFacebookSquare,
-  faInstagram,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { logUserIn } from '../apollo';
-import AuthLayout from '../components/auth/AuthLayout';
-import BottomBox from '../components/auth/BottomBox';
-import Button from '../components/auth/Button';
-import FormBox from '../components/auth/FormBox';
-import FormError from '../components/auth/FormError';
-import Input from '../components/auth/Input';
-import Notification from '../components/auth/Notification';
-import Separator from '../components/auth/Separator';
-import { PageTitle } from '../components/PageTitle';
-import Logo from 'assets/flower-pot.png';
-import routes from '../routes';
+import { logUserIn } from 'apollo';
+import AuthLayout from 'components/auth/AuthLayout';
+import BottomBox from 'components/auth/BottomBox';
+import Button from 'components/auth/Button';
+import FormBox from 'components/auth/FormBox';
+import FormError from 'components/auth/FormError';
+import Input from 'components/auth/Input';
+import Notification from 'components/auth/Notification';
+import Separator from 'components/auth/Separator';
+import { PageTitle } from 'components/PageTitle';
+// import Logo from 'assets/flower-pot.png';
+import Logo from 'assets/hwamoak_logo.png';
+import routes from 'components/Routes/routes';
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -29,7 +27,8 @@ const FacebookLogin = styled.div`
 `;
 const SLogo = styled.img`
   display: block;
-  width: 40px;
+  /* width: 40px; */
+  width: 115px;
   margin: 0 auto;
 `;
 const LOGIN_MUTATION = gql`
@@ -92,8 +91,7 @@ function Login() {
       <PageTitle title="Login" />
       <FormBox>
         <div>
-          {/* <SLogo src={Logo} alt="logo" /> */}
-          <FontAwesomeIcon icon={faInstagram} size="3x" />
+          <SLogo src={Logo} alt="logo" />
         </div>
         <Notification message={location?.state?.message} />
         <form onSubmit={handleSubmit(onSubmitValid)}>

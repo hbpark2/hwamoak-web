@@ -2,14 +2,15 @@ import { useApolloClient, useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import React from 'react';
 import { useParams } from 'react-router';
-import { PHOTO_FRAGMENT } from '../fragments';
+import { PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
-import { FatText } from '../components/shared';
+import { FatText } from 'components/shared';
 import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../components/auth/Button';
-import { PageTitle } from '../components/PageTitle';
-import useUser from '../hooks/useUser';
+import Button from 'components/auth/Button';
+import { PageTitle } from 'components/PageTitle';
+import useUser from 'hooks/useUser';
+import Layout from 'components/Layout/Layout';
 
 const FOLLOW_USER_MUTATION = gql`
   mutation followUser($username: String!) {
@@ -224,7 +225,7 @@ const Profile = () => {
     }
   };
   return (
-    <div>
+    <Layout>
       <PageTitle
         title={
           loading ? 'Loading . . . ' : `${data?.seeProfile?.username}'s Profile`
@@ -276,7 +277,7 @@ const Profile = () => {
           </Photo>
         ))}
       </Grid>
-    </div>
+    </Layout>
   );
 };
 

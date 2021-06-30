@@ -1,14 +1,19 @@
 import { useReactiveVar } from '@apollo/client';
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faCompass } from '@fortawesome/free-regular-svg-icons';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { isLoggedInVar } from '../apollo';
-import useUser from '../hooks/useUser';
-import routes from '../routes';
-import Avatar from './Avatar';
+import { isLoggedInVar } from 'apollo';
+import useUser from 'hooks/useUser';
+import routes from 'components/Routes/routes';
+import Avatar from '../Avatar';
+// import Logo from 'assets/flower-pot.png';
+import Logo from 'assets/hwamoak_logo.png';
+
+import { useContext } from 'react';
+import { CurrentContext } from 'Context/ContextStore';
+
+//
 
 const SHeader = styled.header`
   width: 100%;
@@ -46,25 +51,28 @@ const Button = styled.span`
   color: white;
   font-weight: 600;
 `;
+const SLogo = styled.img`
+  display: block;
+  width: 40px;
+  margin: 0 auto;
+`;
 
 const Header = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
+  const { seedLoggedIn } = useContext(CurrentContext);
 
   return (
     <SHeader>
       <Wrapper>
         <Column>
-          <FontAwesomeIcon icon={faInstagram} size="2x" />
+          <Link to="/">
+            <SLogo src={Logo} alt="logo" />
+          </Link>
         </Column>
         <Column>
           {isLoggedIn ? (
             <IconContainer>
-              <Icon>
-                <Link to={routes.home}>
-                  <FontAwesomeIcon icon={faHome} size="lg" />
-                </Link>{' '}
-              </Icon>
               <Icon>
                 <FontAwesomeIcon icon={faCompass} size="lg" />
               </Icon>
@@ -73,15 +81,11 @@ const Header = () => {
                   <Avatar url={data?.me?.avatar} />
                 </Link>
               </Icon>
-              {/* {data?.me?.avatar ? (
+              {seedLoggedIn && (
                 <Icon>
-                  <Avatar url={data?.me?.avatar} />
+                  <Link to="/upload_plant">uploadPlants</Link>
                 </Icon>
-              ) : (
-                <Icon>
-                  <FontAwesomeIcon icon={faUser} size="lg" />
-                </Icon>
-              )} */}
+              )}
             </IconContainer>
           ) : (
             <Link to={routes.home}>

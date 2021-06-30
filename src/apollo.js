@@ -1,13 +1,18 @@
 import {
   ApolloClient,
-  createHttpLink,
+  // createHttpLink,
   InMemoryCache,
   makeVar,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from 'apollo-upload-client';
 
 const TOKEN = 'token';
 const DARK_MODE = 'DARK_MODE';
+
+//SEEDUSER
+export const SEED_USER = ['jake', 'tonny', 'baek'];
+
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 
 //로그인
@@ -36,7 +41,11 @@ export const disableDarkMode = () => {
 };
 
 // For Put the Token in Request Header
-const httpLink = createHttpLink({
+// const httpLink = createHttpLink({
+//   uri: 'http://localhost:4000/graphql',
+// });
+
+const link = createUploadLink({
   uri: 'http://localhost:4000/graphql',
 });
 
@@ -50,7 +59,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(link),
+
   cache: new InMemoryCache({
     typePolicies: {
       User: {

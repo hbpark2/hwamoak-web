@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import useUser from '../../hooks/useUser';
+import useUser from 'hooks/useUser';
 import Comment from './Comment';
 
 const CommentsContainer = styled.div`

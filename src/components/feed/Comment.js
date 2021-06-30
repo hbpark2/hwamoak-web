@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FatText } from '../shared';
+import { FatText } from 'components/shared';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 
