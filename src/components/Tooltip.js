@@ -1,7 +1,7 @@
-import React from 'react'
-import TooltipTrigger from 'react-popper-tooltip'
-import styled, {keyframes} from 'styled-components'
-import 'react-popper-tooltip/dist/styles.css'
+import React from 'react';
+import TooltipTrigger from 'react-popper-tooltip';
+import styled from 'styled-components';
+import 'react-popper-tooltip/dist/styles.css';
 
 const Arrow = styled.div`
   & {
@@ -13,10 +13,10 @@ const Arrow = styled.div`
   &::after {
     border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent !important;
   }
-`
+`;
 const TriggerWrap = styled.span`
   display: block;
-`
+`;
 
 const modifiers = [
   {
@@ -26,16 +26,35 @@ const modifiers = [
       offset: [20, 0],
     },
   },
-]
-const Tooltip = ({idx, children, tooltip, hideArrow = true, backgroundColor, ...props}) => (
+];
+
+const Tooltip = ({
+  idx,
+  children,
+  tooltip,
+  hideArrow = true,
+  backgroundColor,
+  ...props
+}) => (
   <TooltipTrigger
     {...props}
-    tooltip={({arrowRef, tooltipRef, getArrowProps, getTooltipProps, placement, modifiers}) => (
+    tooltip={({
+      arrowRef,
+      tooltipRef,
+      getArrowProps,
+      getTooltipProps,
+      placement,
+      modifiers,
+    }) => (
       <div
         {...getTooltipProps({
           ref: tooltipRef,
           className: 'tooltip-container',
-          style: {border: 'none', boxShadow: '5px 5px 10px rgba(0,0,0,0.3)', backgroundColor: backgroundColor},
+          style: {
+            border: 'none',
+            boxShadow: '5px 5px 10px rgba(0,0,0,0.3)',
+            backgroundColor: backgroundColor,
+          },
         })}
       >
         {!hideArrow && (
@@ -51,7 +70,7 @@ const Tooltip = ({idx, children, tooltip, hideArrow = true, backgroundColor, ...
       </div>
     )}
   >
-    {({getTriggerProps, triggerRef}) => (
+    {({ getTriggerProps, triggerRef }) => (
       <span
         {...getTriggerProps({
           ref: triggerRef,
@@ -62,6 +81,6 @@ const Tooltip = ({idx, children, tooltip, hideArrow = true, backgroundColor, ...
       </span>
     )}
   </TooltipTrigger>
-)
+);
 
-export default Tooltip
+export default Tooltip;
