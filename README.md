@@ -1,7 +1,7 @@
-# InstaClone Web
+# Hwamoak Web
 
 - [ ] Router
 - [ ] Authentication
 - [ ] Arch.
 - [ ] Styles
-- [ ]
+- [ ] Plant
