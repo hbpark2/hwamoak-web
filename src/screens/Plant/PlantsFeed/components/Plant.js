@@ -4,14 +4,15 @@ import { FatText } from 'components/shared';
 import { Link } from 'react-router-dom';
 
 const Container = styled(Link)`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #f6f5e8;
-  max-width: 615px;
-  height: 205px;
+  min-height: 205px;
   border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
   margin: 0 10px;
-  padding: 10px;
+  padding: 20px 10px;
 `;
 
 const Title = styled.div`

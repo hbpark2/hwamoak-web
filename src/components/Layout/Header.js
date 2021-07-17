@@ -10,7 +10,7 @@ import Avatar from '../Avatar';
 // import Logo from 'assets/flower-pot.png';
 import Logo from 'assets/hwamoak_logo.png';
 
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { CurrentContext } from 'Context/ContextStore';
 
 //
@@ -83,7 +83,7 @@ const Header = () => {
               </Icon>
               {seedLoggedIn && (
                 <Icon>
-                  <Link to="/upload_plant">uploadPlants</Link>
+                  <Link to="/plant/upload">uploadPlants</Link>
                 </Icon>
               )}
             </IconContainer>

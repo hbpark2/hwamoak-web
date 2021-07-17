@@ -17,8 +17,8 @@ import Button from 'components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
 import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
-import Gauge from './components/Gauge';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation, useParams } from 'react-router';
+import Gauge from '../UploadPlant/components/Gauge';
 
 const Container = styled.div`
   padding-bottom: 30px;
@@ -135,62 +135,6 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
-const TemperatureWrap = styled.div`
-  display: flex;
-  margin: 30px auto;
-`;
-const TemperatureLabel = styled.label`
-  display: flex;
-  align-items: center;
-  width: 80%;
-  input {
-    width: 35px;
-  }
-  i {
-    display: block;
-    margin: 0 5px;
-  }
-  span {
-    display: block;
-    text-align: center;
-    width: 100px;
-  }
-
-  .tem {
-    display: inline;
-    width: auto;
-    margin-left: 5px;
-    font-weight: 700;
-  }
-
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-`;
-const TemperatureInput = styled(Input)`
-  margin-top: 0;
-  border: none;
-`;
-
-const DetailInputWrap = styled.div`
-  display: flex;
-  margin-top: 10px;
-  input {
-    margin: 5px;
-  }
-`;
-
-const DELETE_PLANTIMAGE_MUTATION = gql`
-  mutation deletePlantImage($id: Int!) {
-    deletePlantImage(id: $id) {
-      ok
-      error
-    }
-  }
-`;
-
 const UPLOAD_FILE_MUTATION = gql`
   mutation uploadFile($images: [Upload]!) {
     uploadFile(images: $images) {
@@ -202,8 +146,9 @@ const UPLOAD_FILE_MUTATION = gql`
   }
 `;
 
-const UPLOAD_PLANT_MUTATION = gql`
-  mutation uploadPlants(
+const EDIT_PLANT_MUTATION = gql`
+  mutation editPlant(
+    $id: Int!
     $title: String!
     $caption: String
     $images: [String]!
@@ -220,7 +165,8 @@ const UPLOAD_PLANT_MUTATION = gql`
     $plantHome: String
     $plantHabitat: String
   ) {
-    uploadPlants(
+    editPlant(
+      id: $id
       title: $title
       caption: $caption
       images: $images
@@ -237,29 +183,73 @@ const UPLOAD_PLANT_MUTATION = gql`
       plantHome: $plantHome
       plantHabitat: $plantHabitat
     ) {
-      title
-      caption
-      images {
-        file
-      }
+      ok
+      error
+    }
+  }
+`;
+const DELETE_PLANTIMAGE_MUTATION = gql`
+  mutation deletePlantImage($id: Int!) {
+    deletePlantImage(id: $id) {
+      ok
+      error
     }
   }
 `;
 
-const UploadPlantPresenter = () => {
-  const { register, handleSubmit, formState, errors, watch } = useForm({
+const EditPlantPresenter = ({
+  id,
+  user,
+  images,
+  title,
+  caption,
+  water,
+  sunlight,
+  temperatureMin,
+  temperatureMax,
+  plantDivision,
+  plantClass,
+  plantOrder,
+  plantFamily,
+  plantGenus,
+  plantSpecies,
+  plantHome,
+  plantHabitat,
+  isLiked,
+  plantLikes,
+}) => {
+  const { register, handleSubmit, formState } = useForm({
     mode: 'onChange',
   });
-  console.log(watch());
 
   const [previewPhotos, setPreviewPhotos] = useState([]);
   const [fileList, setFileList] = useState([]);
-  const [water, setWater] = useState(20);
-  const [sunlight, setSunlight] = useState(20);
-  // const [temperatureMin, setTemperatureMin] = useState(10);
-  // const [temperatureMax, setTemperatureMax] = useState(30);
+  const [awater, setWater] = useState(water);
+  const [asunlight, setSunlight] = useState(sunlight);
+  // const [atemperature, setTemperature] = useState(temperature);
   const history = useHistory();
 
+  useEffect(() => {
+    let fileListArr = [];
+    let previewArr = [];
+
+    // eslint-disable-next-line array-callback-return
+    images.map(item => {
+      fileListArr.push(item.file);
+      previewArr.push({ src: item.file, id: item.id });
+
+      setFileList(fileListArr);
+      setPreviewPhotos(previewArr);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //CAPTION 만들기
+  const defaultCaptionArr = caption.split('<br />').map((line, index) => {
+    return `${line} \n`;
+  });
+  const defaultCaption = defaultCaptionArr.join().replaceAll(',', '');
   const onCompleted = data => {
     console.log(data);
   };
@@ -272,7 +262,7 @@ const UploadPlantPresenter = () => {
     ]);
   };
 
-  const [uploadPlants, { loading }] = useMutation(UPLOAD_PLANT_MUTATION, {
+  const [editPlant, { loading }] = useMutation(EDIT_PLANT_MUTATION, {
     onCompleted,
   });
 
@@ -301,7 +291,7 @@ const UploadPlantPresenter = () => {
 
   const onDeleteButtonClick = (e, idx, imageId) => {
     e.preventDefault();
-    deletePlantImage({ variables: { id: imageId } });
+    // deletePlantImage({ variables: { id: imageId } });
     setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
     setFileList(prev => prev.filter((_, index) => index !== idx));
     console.log(imageId);
@@ -310,16 +300,17 @@ const UploadPlantPresenter = () => {
   const onValid = data => {
     let str = data.caption;
     let captionRemake = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    console.log(data);
-    uploadPlants({
+
+    editPlant({
       variables: {
+        id: id,
         title: data.title,
         caption: captionRemake,
         images: fileList,
-        water: water,
-        sunlight: sunlight,
-        temperatureMin: parseInt(data.temperatureMin),
-        temperatureMax: parseInt(data.temperatureMax),
+        water: awater,
+        sunlight: asunlight,
+        $temperatureMin: data.temperatureMin,
+        $temperatureMax: data.temperatureMax,
         plantDivision: data.plantDivision,
         plantClass: data.plantClass,
         plantOrder: data.plantOrder,
@@ -330,18 +321,12 @@ const UploadPlantPresenter = () => {
         plantHabitat: data.plantHabitat,
       },
     });
-    history.goBack();
+    history.push('/');
   };
 
-  const checkInputNum = e => {
-    if (e.keyCode < 48 || e.keyCode > 57) {
-      e.returnValue = false;
-    }
-  };
-
-  // console.log(previewPhotos);
-  // console.log(fileList);
-  // console.log(errors);
+  console.log(previewPhotos);
+  console.log(fileList);
+  console.log(fileList.length);
 
   return (
     <Container>
@@ -364,6 +349,7 @@ const UploadPlantPresenter = () => {
               name="title"
               type="text"
               placeholder="Title"
+              defaultValue={title}
             />
             <CaptionInput
               ref={register({
@@ -372,105 +358,8 @@ const UploadPlantPresenter = () => {
               name="caption"
               type="text"
               placeholder="Caption"
+              defaultValue={defaultCaption}
             />
-
-            <DetailInputWrap>
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantDivision"
-                type="text"
-                placeholder="문"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantClass"
-                type="text"
-                placeholder="강"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantOrder"
-                type="text"
-                placeholder="목"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantFamily"
-                type="text"
-                placeholder="과"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantGenus"
-                type="text"
-                placeholder="속"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantSpecies"
-                type="text"
-                placeholder="종"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantHome"
-                type="text"
-                placeholder="원산지"
-              />
-              <Input
-                ref={register({ required: 'required' })}
-                name="plantHabitat"
-                type="text"
-                placeholder="서식지"
-              />
-            </DetailInputWrap>
-
-            <TemperatureWrap>
-              <TemperatureLabel>
-                <span>적정온도</span>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue="10"
-                  name="temperatureMin"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
-                {(errors.temperatureMin || errors.temperatureMax) &&
-                  errors.temperatureMin.message}
-                <i>~</i>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue="30"
-                  name="temperatureMax"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
-              </TemperatureLabel>
-            </TemperatureWrap>
             <UploadPlantWrap>
               <PlantImagesWrap>
                 {previewPhotos.map((item, index) => {
@@ -489,10 +378,15 @@ const UploadPlantPresenter = () => {
               </PlantImagesWrap>
               <UploadPlantLabel htmlFor="imageUpload">
                 <FontAwesomeIcon icon={faPlus} />
+                {console.log(fileList.length)}
                 <input
-                  ref={register({
-                    required: 'Image is required.',
-                  })}
+                  ref={register(
+                    images.length > 0
+                      ? null
+                      : {
+                          required: 'Image is required.',
+                        },
+                  )}
                   name="image"
                   type="file"
                   accept=" .jpg, .png"
@@ -506,36 +400,39 @@ const UploadPlantPresenter = () => {
                 <Details>
                   <Icon>
                     <img src={WaterIcon} alt="" />
-                    <Percentage>{water}%</Percentage>
+                    <Percentage>{awater}%</Percentage>
                   </Icon>
                   <Gauge
                     bgColor={props => props.theme.waterColor}
                     accentColor={props => props.theme.waterAccentColor}
                     background={props => props.theme.waterGradient}
+                    percentage={awater}
                     setGauge={setWater}
                   />
                 </Details>
                 <Details>
                   <Icon>
                     <img src={SunriseIcon} alt="" />
-                    <Percentage>{sunlight}%</Percentage>
+                    <Percentage>{asunlight}%</Percentage>
                   </Icon>
                   <Gauge
                     bgColor={props => props.theme.sunlightColor}
                     accentColor={props => props.theme.sunlightAccentColor}
                     background={props => props.theme.sunlightGradient}
+                    percentage={asunlight}
                     setGauge={setSunlight}
                   />
                 </Details>
                 {/* <Details>
                   <Icon>
                     <img src={TemperatureIcon} alt="" />
-                    <Percentage>{temperature}%</Percentage>
+                    <Percentage>{atemperature}%</Percentage>
                   </Icon>
                   <Gauge
                     bgColor={props => props.theme.temperatureColor}
                     accentColor={props => props.theme.temperatureAccentColor}
                     background={props => props.theme.temperatureGradient}
+                    percentage={atemperature}
                     setGauge={setTemperature}
                   />
                 </Details> */}
@@ -553,4 +450,4 @@ const UploadPlantPresenter = () => {
   );
 };
 
-export default UploadPlantPresenter;
+export default EditPlantPresenter;

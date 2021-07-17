@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import React from 'react';
-import { useParams } from 'react-router';
+import React, { useContext } from 'react';
+import { useHistory, useParams } from 'react-router';
+import { CurrentContext } from '../../../Context/ContextStore';
 import PlantDetailPresenter from './PlantDetailPresenter';
 
 const SEE_PLANT_QUERY = gql`
@@ -12,7 +13,16 @@ const SEE_PLANT_QUERY = gql`
       caption
       water
       sunlight
-      temperature
+      temperatureMin
+      temperatureMax
+      plantDivision
+      plantClass
+      plantOrder
+      plantFamily
+      plantGenus
+      plantSpecies
+      plantHome
+      plantHabitat
       plantLikes
       isLiked
       user {
@@ -22,6 +32,15 @@ const SEE_PLANT_QUERY = gql`
       images {
         file
       }
+    }
+  }
+`;
+
+const DELETE_PLANT_MUTATION = gql`
+  mutation deletePlant($id: Int!) {
+    deletePlant(id: $id) {
+      ok
+      error
     }
   }
 `;
@@ -36,6 +55,8 @@ const TOGGLE_PLANT_LIKE_MUTATION = gql`
 `;
 
 const PlantDetailContainer = () => {
+  const history = useHistory();
+  const { seedLoggedIn } = useContext(CurrentContext);
   const { plantId } = useParams();
   const id = parseInt(plantId);
   const { data: plantData, loading } = useQuery(SEE_PLANT_QUERY, {
@@ -79,13 +100,28 @@ const PlantDetailContainer = () => {
     update: updateToggleLike,
   });
 
-  console.log(plantData);
+  const [deletePlant] = useMutation(DELETE_PLANT_MUTATION, {
+    variables: {
+      id,
+    },
+  });
+
+  const onDeletePlant = id => {
+    deletePlant();
+
+    setTimeout(() => {
+      history.goBack();
+    }, 500);
+  };
+
   return loading ? (
-    'loadin'
+    'loading'
   ) : (
     <PlantDetailPresenter
-      {...plantData.seePlant}
+      {...plantData?.seePlant}
       togglePlantLikeMutation={togglePlantLikeMutation}
+      onDeletePlant={onDeletePlant}
+      seedLoggedIn={seedLoggedIn}
     />
   );
 };

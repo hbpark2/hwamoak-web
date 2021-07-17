@@ -40,7 +40,7 @@ const GaugeItem = styled.div`
   top: 0;
   left: 0;
   height: 40px;
-  width: ${props => props.width}%;
+  width: ${props => props.customwidth}%;
   /* background-color: ${props => props.accentColor}; */
   background: ${props => props.background};
   opacity: 0.7;
@@ -51,10 +51,11 @@ const GaugeItem = styled.div`
 let gaugeArr = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
 const Gauge = ({ bgColor, accentColor, setGauge, background, percentage }) => {
-  const [width, setWidth] = useState(20);
-  const [isUpload, setIsUpload] = useState(false);
   const { pathname } = useLocation();
-
+  const pathArr = pathname.split('/');
+  const pageState = pathArr[pathArr.length - 2];
+  const [width, setWidth] = useState(pageState === 'edit' ? '' : 20);
+  const [isUpload, setIsUpload] = useState(false);
   const onButtonClick = (e, item) => {
     e.preventDefault();
     setWidth(item);
@@ -62,16 +63,21 @@ const Gauge = ({ bgColor, accentColor, setGauge, background, percentage }) => {
   };
 
   useEffect(() => {
-    if (pathname === '/upload_plant') {
+    if (pathname.indexOf('upload') > 0 || pathname.indexOf('edit') > 0) {
       setIsUpload(true);
     } else {
       setIsUpload(false);
       setWidth(percentage);
     }
+
+    if (pageState === 'edit') {
+      setWidth(percentage);
+    }
+
     return () => {
       setIsUpload(false);
     };
-  }, [pathname, percentage]);
+  }, [pathname, percentage, pageState]);
 
   return (
     <Container bgColor={bgColor}>
@@ -90,7 +96,7 @@ const Gauge = ({ bgColor, accentColor, setGauge, background, percentage }) => {
       <GaugeItem
         accentColor={accentColor}
         background={background}
-        width={width}
+        customwidth={width}
       />
     </Container>
   );

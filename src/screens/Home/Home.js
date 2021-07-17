@@ -8,6 +8,8 @@ import Plant from 'components/feed/Plant';
 import { PageTitle } from 'components/PageTitle';
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   margin: 25px auto;
@@ -20,7 +22,7 @@ const PlantsContainer = styled.div`
   align-items: center;
   overflow-x: scroll;
   padding: 10px 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   &::-webkit-scrollbar {
     width: 5px;
     height: 8px;
@@ -33,6 +35,12 @@ const PlantsContainer = styled.div`
   &::-webkit-scrollbar-track {
     background-color: ${props => props.theme.beige2};
   }
+`;
+
+const MoreButtonWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 20px;
 `;
 
 const FEED_QUERY = gql`
@@ -63,7 +71,8 @@ const PLANTS_FEED_QUERY = gql`
       caption
       water
       sunlight
-      temperature
+      temperatureMin
+      temperatureMax
       plantLikes
       isLiked
       user {
@@ -79,11 +88,22 @@ const PLANTS_FEED_QUERY = gql`
 
 const Home = () => {
   const { data: photosData } = useQuery(FEED_QUERY);
-  const { data: plantsData } = useQuery(PLANTS_FEED_QUERY);
-  // console.log(plantsData);
+  const { data: plantsData, refetch } = useQuery(PLANTS_FEED_QUERY, {
+    skip: 0,
+  });
+
+  useEffect(() => {
+    refetch();
+
+    return () => {
+      refetch();
+    };
+  }, [refetch]);
+
   return (
     <Container>
       <PageTitle title="Home" />
+
       {plantsData && (
         <PlantsContainer>
           {plantsData?.seePlantsFeed?.map(plant => {
@@ -91,6 +111,9 @@ const Home = () => {
           })}
         </PlantsContainer>
       )}
+      <MoreButtonWrap>
+        <Link to="/plant_feed">더보기</Link>
+      </MoreButtonWrap>
       {photosData?.seeFeed?.map(photo => (
         <Photo key={photo.id} {...photo} />
       ))}

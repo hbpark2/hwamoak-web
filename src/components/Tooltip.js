@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import 'react-popper-tooltip/dist/styles.css';
 
 const Arrow = styled.div`
-  & {
-    /* top: 0.px !important; */
-  }
   &::before {
     border-color: transparent transparent transparent transparent !important;
   }
@@ -14,19 +11,6 @@ const Arrow = styled.div`
     border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent !important;
   }
 `;
-const TriggerWrap = styled.span`
-  display: block;
-`;
-
-const modifiers = [
-  {
-    name: 'offset',
-    enabled: true,
-    options: {
-      offset: [20, 0],
-    },
-  },
-];
 
 const Tooltip = ({
   idx,
