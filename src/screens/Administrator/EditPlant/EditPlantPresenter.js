@@ -135,6 +135,54 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
+const TemperatureInput = styled(Input)`
+  margin-top: 0;
+  border: none;
+`;
+
+const DetailInputWrap = styled.div`
+  display: flex;
+  margin-top: 10px;
+  input {
+    margin: 5px;
+  }
+`;
+
+const TemperatureWrap = styled.div`
+  display: flex;
+  margin: 30px auto;
+`;
+const TemperatureLabel = styled.label`
+  display: flex;
+  align-items: center;
+  width: 80%;
+  input {
+    width: 35px;
+  }
+  i {
+    display: block;
+    margin: 0 5px;
+  }
+  span {
+    display: block;
+    text-align: center;
+    width: 100px;
+  }
+
+  .tem {
+    display: inline;
+    width: auto;
+    margin-left: 5px;
+    font-weight: 700;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+
 const UPLOAD_FILE_MUTATION = gql`
   mutation uploadFile($images: [Upload]!) {
     uploadFile(images: $images) {
@@ -218,7 +266,7 @@ const EditPlantPresenter = ({
   isLiked,
   plantLikes,
 }) => {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, errors, formState } = useForm({
     mode: 'onChange',
   });
 
@@ -324,9 +372,11 @@ const EditPlantPresenter = ({
     history.push('/');
   };
 
-  console.log(previewPhotos);
-  console.log(fileList);
-  console.log(fileList.length);
+  const checkInputNum = e => {
+    if (e.keyCode < 48 || e.keyCode > 57) {
+      e.returnValue = false;
+    }
+  };
 
   return (
     <Container>
@@ -360,6 +410,113 @@ const EditPlantPresenter = ({
               placeholder="Caption"
               defaultValue={defaultCaption}
             />
+
+            <DetailInputWrap>
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantDivision"
+                type="text"
+                placeholder="문"
+                defaultValue={plantDivision}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantClass"
+                type="text"
+                placeholder="강"
+                defaultValue={plantClass}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantOrder"
+                type="text"
+                placeholder="목"
+                defaultValue={plantOrder}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantFamily"
+                type="text"
+                placeholder="과"
+                defaultValue={plantFamily}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantGenus"
+                type="text"
+                placeholder="속"
+                defaultValue={plantGenus}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantSpecies"
+                type="text"
+                placeholder="종"
+                defaultValue={plantSpecies}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantHome"
+                type="text"
+                placeholder="원산지"
+                defaultValue={plantHome}
+              />
+              <Input
+                ref={register({ required: 'required' })}
+                name="plantHabitat"
+                type="text"
+                placeholder="서식지"
+                defaultValue={plantHabitat}
+              />
+            </DetailInputWrap>
+
+            <TemperatureWrap>
+              <TemperatureLabel>
+                <span>적정온도</span>
+                <TemperatureInput
+                  ref={register({
+                    required: 'Temperature is required.',
+                    validate: value => {
+                      return (
+                        !parseInt(value) > 0 ||
+                        !parseInt(value) < 40 ||
+                        '10보다크고 40보다작아야해'
+                      );
+                    },
+                  })}
+                  defaultValue={temperatureMin}
+                  name="temperatureMin"
+                  min="0"
+                  max="40"
+                  type="number"
+                  onKeyPress={checkInputNum}
+                />
+                &nbsp;<span className="tem">℃</span>
+                {(errors.temperatureMin || errors.temperatureMax) &&
+                  errors.temperatureMin.message}
+                <i>~</i>
+                <TemperatureInput
+                  ref={register({
+                    required: 'Temperature is required.',
+                    validate: value => {
+                      return (
+                        !parseInt(value) > 0 ||
+                        !parseInt(value) < 40 ||
+                        '10보다크고 40보다작아야해'
+                      );
+                    },
+                  })}
+                  defaultValue={temperatureMax}
+                  name="temperatureMax"
+                  min="0"
+                  max="40"
+                  type="number"
+                  onKeyPress={checkInputNum}
+                />
+                &nbsp;<span className="tem">℃</span>
+              </TemperatureLabel>
+            </TemperatureWrap>
+
             <UploadPlantWrap>
               <PlantImagesWrap>
                 {previewPhotos.map((item, index) => {

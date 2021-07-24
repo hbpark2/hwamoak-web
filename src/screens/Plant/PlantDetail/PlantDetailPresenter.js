@@ -131,11 +131,6 @@ const TemperatureWrap = styled.div`
     margin: 0 5px;
   }
 `;
-const TemperatureTitle = styled.span`
-  display: block;
-  font-weight: 600;
-  margin-right: 10px;
-`;
 
 const DetailWrap = styled.div`
   width: 60%;

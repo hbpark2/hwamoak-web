@@ -339,10 +339,6 @@ const UploadPlantPresenter = () => {
     }
   };
 
-  // console.log(previewPhotos);
-  // console.log(fileList);
-  // console.log(errors);
-
   return (
     <Container>
       <PageTitle title="Upload Plant" />
