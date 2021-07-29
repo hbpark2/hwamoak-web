@@ -49,7 +49,7 @@ export const disableDarkMode = () => {
 // uri: process.env.REACT_APP_LOCAL_HWAMOAK_BACKEND,
 
 const link = createUploadLink({
-  uri: process.env.HEROKU_BACKEND,
+  uri: process.env.REACT_APP_LOCAL_HWAMOAK_BACKEND,
 });
 
 const authLink = setContext((_, { headers }) => {
