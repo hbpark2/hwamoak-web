@@ -1,6 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,6 +11,7 @@ import Input from 'components/auth/Input';
 import { PageTitle } from 'components/PageTitle';
 import { FatLink } from 'components/shared';
 import routes from 'components/Routes/routes';
+import Logo from 'assets/hwamoak_logo.png';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -23,6 +23,13 @@ const Subtitle = styled(FatLink)`
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
+`;
+
+const SLogo = styled.img`
+  display: block;
+  /* width: 40px; */
+  width: 115px;
+  margin: 0 auto;
 `;
 
 const CREATE_ACCOUNT_MUTATION = gql`
@@ -83,7 +90,7 @@ function SingUp() {
       <PageTitle title="Sign up" />
       <FormBox>
         <HeaderContainer>
-          <FontAwesomeIcon icon={faInstagram} size="3x" />
+          <SLogo src={Logo} alt="logo" />
           <Subtitle>
             Sign up to see photos and videos from your friends.
           </Subtitle>
