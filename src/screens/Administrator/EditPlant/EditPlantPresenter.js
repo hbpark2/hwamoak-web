@@ -414,56 +414,56 @@ const EditPlantPresenter = ({
 
             <DetailInputWrap>
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantDivision"
                 type="text"
                 placeholder="문"
                 defaultValue={plantDivision}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantClass"
                 type="text"
                 placeholder="강"
                 defaultValue={plantClass}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantOrder"
                 type="text"
                 placeholder="목"
                 defaultValue={plantOrder}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantFamily"
                 type="text"
                 placeholder="과"
                 defaultValue={plantFamily}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantGenus"
                 type="text"
                 placeholder="속"
                 defaultValue={plantGenus}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantSpecies"
                 type="text"
                 placeholder="종"
                 defaultValue={plantSpecies}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantHome"
                 type="text"
                 placeholder="원산지"
                 defaultValue={plantHome}
               />
               <Input
-                // ref={register({ required: 'required' })}
+                ref={register({ required: false })}
                 name="plantHabitat"
                 type="text"
                 placeholder="서식지"
