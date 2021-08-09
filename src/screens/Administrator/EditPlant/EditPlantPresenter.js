@@ -369,6 +369,7 @@ const EditPlantPresenter = ({
         plantHabitat: data.plantHabitat,
       },
     });
+
     history.push(`/plants/${id}`);
   };
 

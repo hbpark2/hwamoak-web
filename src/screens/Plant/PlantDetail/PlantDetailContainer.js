@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { CurrentContext } from '../../../Context/ContextStore';
 import PlantDetailPresenter from './PlantDetailPresenter';
@@ -59,7 +59,11 @@ const PlantDetailContainer = () => {
   const { seedLoggedIn } = useContext(CurrentContext);
   const { plantId } = useParams();
   const id = parseInt(plantId);
-  const { data: plantData, loading } = useQuery(SEE_PLANT_QUERY, {
+  const {
+    data: plantData,
+    loading,
+    refetch,
+  } = useQuery(SEE_PLANT_QUERY, {
     variables: {
       id: id,
     },
@@ -113,6 +117,10 @@ const PlantDetailContainer = () => {
       history.goBack();
     }, 500);
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return loading ? (
     'loading'
