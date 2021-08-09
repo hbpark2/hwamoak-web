@@ -369,7 +369,7 @@ const EditPlantPresenter = ({
         plantHabitat: data.plantHabitat,
       },
     });
-    history.push('/');
+    history.push(`/plants/${id}`);
   };
 
   const checkInputNum = e => {
@@ -413,56 +413,56 @@ const EditPlantPresenter = ({
 
             <DetailInputWrap>
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantDivision"
                 type="text"
                 placeholder="문"
                 defaultValue={plantDivision}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantClass"
                 type="text"
                 placeholder="강"
                 defaultValue={plantClass}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantOrder"
                 type="text"
                 placeholder="목"
                 defaultValue={plantOrder}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantFamily"
                 type="text"
                 placeholder="과"
                 defaultValue={plantFamily}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantGenus"
                 type="text"
                 placeholder="속"
                 defaultValue={plantGenus}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantSpecies"
                 type="text"
                 placeholder="종"
                 defaultValue={plantSpecies}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantHome"
                 type="text"
                 placeholder="원산지"
                 defaultValue={plantHome}
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantHabitat"
                 type="text"
                 placeholder="서식지"
