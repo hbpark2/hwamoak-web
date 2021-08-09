@@ -9,6 +9,7 @@ const Container = styled(Link)`
   align-items: center;
   background-color: #f6f5e8;
   min-height: 205px;
+  /* min-height: 350px; */
   border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
   margin: 0 10px;
