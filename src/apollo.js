@@ -11,7 +11,7 @@ const TOKEN = 'token';
 const DARK_MODE = 'DARK_MODE';
 
 //SEEDUSER
-export const SEED_USER = ['jake', 'tonny', 'baek'];
+export const SEED_USER = ['jake', 'tonny', 'baek', 'stitch'];
 
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 

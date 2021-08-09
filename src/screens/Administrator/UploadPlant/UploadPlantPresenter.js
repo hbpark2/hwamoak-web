@@ -372,49 +372,49 @@ const UploadPlantPresenter = () => {
 
             <DetailInputWrap>
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantDivision"
                 type="text"
                 placeholder="문"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantClass"
                 type="text"
                 placeholder="강"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantOrder"
                 type="text"
                 placeholder="목"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantFamily"
                 type="text"
                 placeholder="과"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantGenus"
                 type="text"
                 placeholder="속"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantSpecies"
                 type="text"
                 placeholder="종"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantHome"
                 type="text"
                 placeholder="원산지"
               />
               <Input
-                ref={register({ required: 'required' })}
+                // ref={register({ required: 'required' })}
                 name="plantHabitat"
                 type="text"
                 placeholder="서식지"
