@@ -173,7 +173,6 @@ const PlantDetailPresenter = ({
   onDeletePlant,
   seedLoggedIn,
 }) => {
-  console.log(plantDivision);
   return (
     <Container background={images[0].file}>
       <Layout>

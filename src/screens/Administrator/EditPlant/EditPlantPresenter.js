@@ -369,7 +369,7 @@ const EditPlantPresenter = ({
         plantHabitat: data.plantHabitat,
       },
     });
-
+    window.alert('Edit Complete');
     history.push(`/plants/${id}`);
   };
 
@@ -536,7 +536,7 @@ const EditPlantPresenter = ({
               </PlantImagesWrap>
               <UploadPlantLabel htmlFor="imageUpload">
                 <FontAwesomeIcon icon={faPlus} />
-                {console.log(fileList.length)}
+                {/* {console.log(fileList.length)} */}
                 <input
                   ref={register(
                     images.length > 0
