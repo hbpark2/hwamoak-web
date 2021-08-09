@@ -36,6 +36,7 @@ const PhotoFile = styled.img`
   display: block;
   min-width: 100%;
   max-width: 100%;
+  min-height: 100%;
 `;
 
 const Likes = styled(FatText)`
