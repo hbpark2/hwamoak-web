@@ -7,7 +7,7 @@ const Container = styled(Link)`
   display: block;
   background-color: #f6f5e8;
   max-width: 615px;
-  height: 205px;
+  min-height: 235px;
   border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
   margin: 0 10px;

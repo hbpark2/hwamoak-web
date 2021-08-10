@@ -8,7 +8,7 @@ const Container = styled(Link)`
   flex-direction: column;
   align-items: center;
   background-color: #f6f5e8;
-  min-height: 205px;
+  min-height: 235px;
   /* min-height: 350px; */
   border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
