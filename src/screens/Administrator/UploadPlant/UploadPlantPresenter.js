@@ -136,8 +136,10 @@ const DeleteButton = styled.button`
 `;
 
 const TemperatureWrap = styled.div`
-  display: flex;
   margin: 30px auto;
+  .temperature_box {
+    display: flex;
+  }
 `;
 const TemperatureLabel = styled.label`
   display: flex;
@@ -180,6 +182,13 @@ const DetailInputWrap = styled.div`
   input {
     margin: 5px;
   }
+`;
+
+const Message = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: tomato;
 `;
 
 const DELETE_PLANTIMAGE_MUTATION = gql`
@@ -423,50 +432,54 @@ const UploadPlantPresenter = () => {
             </DetailInputWrap>
 
             <TemperatureWrap>
-              <TemperatureLabel>
-                <span>적정온도</span>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue="10"
-                  name="temperatureMin"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
+              <div className="temperature_box">
+                <TemperatureLabel>
+                  <span>적정온도</span>
+                  <TemperatureInput
+                    ref={register({
+                      required: 'Temperature is required.',
+                      validate: value => {
+                        return (
+                          !parseInt(value) > 0 ||
+                          !parseInt(value) < 40 ||
+                          '10보다크고 40보다작아야해'
+                        );
+                      },
+                    })}
+                    defaultValue="10"
+                    name="temperatureMin"
+                    min="0"
+                    max="40"
+                    type="number"
+                    onKeyPress={checkInputNum}
+                  />
+                  &nbsp;<span className="tem">℃</span>
+                  <i>~</i>
+                  <TemperatureInput
+                    ref={register({
+                      required: 'Temperature is required.',
+                      validate: value => {
+                        return (
+                          !parseInt(value) > 0 ||
+                          !parseInt(value) < 40 ||
+                          '10보다크고 40보다작아야해'
+                        );
+                      },
+                    })}
+                    defaultValue="30"
+                    name="temperatureMax"
+                    min="0"
+                    max="40"
+                    type="number"
+                    onKeyPress={checkInputNum}
+                  />
+                  &nbsp;<span className="tem">℃</span>
+                </TemperatureLabel>
+              </div>
+              <Message>
                 {(errors.temperatureMin || errors.temperatureMax) &&
-                  errors.temperatureMin.message}
-                <i>~</i>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue="30"
-                  name="temperatureMax"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
-              </TemperatureLabel>
+                  '적정온도를 작성해주세요'}
+              </Message>
             </TemperatureWrap>
             <UploadPlantWrap>
               <PlantImagesWrap>
