@@ -19,6 +19,13 @@ import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import { useHistory, useLocation, useParams } from 'react-router';
 import Gauge from '../UploadPlant/components/Gauge';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+
+import 'swiper/swiper-bundle.css';
+import Loading from '../../../components/Loading';
+
+SwiperCore.use([Navigation, Pagination]);
 
 const Container = styled.div`
   padding-bottom: 30px;
@@ -73,13 +80,28 @@ const Form = styled.form`
 `;
 
 const PlantImagesWrap = styled.div`
-  display: flex;
-  justify-content: center;
   margin: 30px auto;
-  img {
-    display: block;
-    width: 150px;
-    margin: 10px;
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: #333;
+    /* font-size: 16px !important; */
+  }
+  .swiper-pagination-bullet {
+    background: #333;
+    width: 7px;
+    height: 7px;
+  }
+  .swiper-slide {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      width: 300px;
+    }
   }
 `;
 
@@ -279,11 +301,12 @@ const EditPlantPresenter = ({
   const { register, handleSubmit, errors, formState } = useForm({
     mode: 'onChange',
   });
-
   const [previewPhotos, setPreviewPhotos] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [awater, setWater] = useState(water);
   const [asunlight, setSunlight] = useState(sunlight);
+  const [imgLoading, setImgLoading] = useState(false);
+
   // const [atemperature, setTemperature] = useState(temperature);
   const history = useHistory();
 
@@ -313,6 +336,7 @@ const EditPlantPresenter = ({
   };
 
   const onUploadFileComplete = data => {
+    setImgLoading(false);
     setFileList([...fileList, data.uploadFile.file]);
     setPreviewPhotos([
       ...previewPhotos,
@@ -344,6 +368,7 @@ const EditPlantPresenter = ({
       }
     }
 
+    setImgLoading(true);
     return null;
   };
 
@@ -533,21 +558,36 @@ const EditPlantPresenter = ({
             </TemperatureWrap>
 
             <UploadPlantWrap>
-              <PlantImagesWrap>
-                {previewPhotos.map((item, index) => {
-                  let makeKey = index;
-                  return (
-                    <ImageItem key={makeKey}>
-                      <img src={item.src} alt="" />
-                      <DeleteButton
-                        onClick={e => onDeleteButtonClick(e, index, item.id)}
-                      >
-                        삭제
-                      </DeleteButton>
-                    </ImageItem>
-                  );
-                })}
-              </PlantImagesWrap>
+              {imgLoading ? (
+                <Loading />
+              ) : (
+                <PlantImagesWrap>
+                  <Swiper
+                    navigation
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                  >
+                    {previewPhotos.map((item, index) => {
+                      let makeKey = index;
+                      return (
+                        <SwiperSlide key={makeKey}>
+                          {/* <ImageItem> */}
+                          <img src={item.src} alt="" />
+                          <DeleteButton
+                            onClick={e =>
+                              onDeleteButtonClick(e, index, item.id)
+                            }
+                          >
+                            삭제
+                          </DeleteButton>
+                          {/* </ImageItem> */}
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                </PlantImagesWrap>
+              )}
               <UploadPlantLabel htmlFor="imageUpload">
                 <FontAwesomeIcon icon={faPlus} />
                 {/* {console.log(fileList.length)} */}

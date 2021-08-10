@@ -19,6 +19,13 @@ import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from './components/Gauge';
 import { useHistory } from 'react-router';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+
+import 'swiper/swiper-bundle.css';
+import Loading from '../../../components/Loading';
+
+SwiperCore.use([Navigation, Pagination]);
 
 const Container = styled.div`
   padding-bottom: 30px;
@@ -73,13 +80,28 @@ const Form = styled.form`
 `;
 
 const PlantImagesWrap = styled.div`
-  display: flex;
-  justify-content: center;
   margin: 30px auto;
-  img {
-    display: block;
-    width: 150px;
-    margin: 10px;
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: #333;
+    /* font-size: 16px !important; */
+  }
+  .swiper-pagination-bullet {
+    background: #333;
+    width: 7px;
+    height: 7px;
+  }
+  .swiper-slide {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      width: 300px;
+    }
   }
 `;
 
@@ -259,12 +281,12 @@ const UploadPlantPresenter = () => {
   const { register, handleSubmit, formState, errors, watch } = useForm({
     mode: 'onChange',
   });
-  console.log(watch());
 
   const [previewPhotos, setPreviewPhotos] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [water, setWater] = useState(20);
   const [sunlight, setSunlight] = useState(20);
+  const [imgLoading, setImgLoading] = useState(false);
   // const [temperatureMin, setTemperatureMin] = useState(10);
   // const [temperatureMax, setTemperatureMax] = useState(30);
   const history = useHistory();
@@ -274,6 +296,7 @@ const UploadPlantPresenter = () => {
   };
 
   const onUploadFileComplete = data => {
+    setImgLoading(false);
     setFileList([...fileList, data.uploadFile.file]);
     setPreviewPhotos([
       ...previewPhotos,
@@ -300,11 +323,14 @@ const UploadPlantPresenter = () => {
     if (files.length > 0) {
       //  파일 확장자 && 용량 체크
       const file = files[0];
-      if (Utils.checkImageFile(file) && Utils.checkFileSize(file, 2)) {
+      // if (Utils.checkImageFile(file) && Utils.checkFileSize(file, 2)) {
+      //   uploadFile({ variables: { images: file } });
+      // }
+      if (Utils.checkImageFile(file)) {
         uploadFile({ variables: { images: file } });
       }
     }
-
+    setImgLoading(true);
     return null;
   };
 
@@ -482,21 +508,36 @@ const UploadPlantPresenter = () => {
               </Message>
             </TemperatureWrap>
             <UploadPlantWrap>
-              <PlantImagesWrap>
-                {previewPhotos.map((item, index) => {
-                  let makeKey = index;
-                  return (
-                    <ImageItem key={makeKey}>
-                      <img src={item.src} alt="" />
-                      <DeleteButton
-                        onClick={e => onDeleteButtonClick(e, index, item.id)}
-                      >
-                        삭제
-                      </DeleteButton>
-                    </ImageItem>
-                  );
-                })}
-              </PlantImagesWrap>
+              {imgLoading ? (
+                <Loading />
+              ) : (
+                <PlantImagesWrap>
+                  <Swiper
+                    navigation
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                  >
+                    {previewPhotos.map((item, index) => {
+                      let makeKey = index;
+                      return (
+                        <SwiperSlide key={makeKey}>
+                          {/* <ImageItem> */}
+                          <img src={item.src} alt="" />
+                          <DeleteButton
+                            onClick={e =>
+                              onDeleteButtonClick(e, index, item.id)
+                            }
+                          >
+                            삭제
+                          </DeleteButton>
+                          {/* </ImageItem> */}
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                </PlantImagesWrap>
+              )}
               <UploadPlantLabel htmlFor="imageUpload">
                 <FontAwesomeIcon icon={faPlus} />
                 <input
