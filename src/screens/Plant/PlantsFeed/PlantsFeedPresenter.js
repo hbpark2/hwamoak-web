@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import Layout from '../../../components/Layout/Layout';
 import Plant from './components/Plant';
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding-bottom: 20px;
+`;
 const Grid = styled.div`
   margin: 0 auto;
   display: grid;

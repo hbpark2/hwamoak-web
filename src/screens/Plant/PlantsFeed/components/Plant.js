@@ -37,6 +37,7 @@ const PhotoFile = styled.img`
   min-width: 100%;
   max-width: 100%;
   min-height: 100%;
+  /* height:100%; */
 `;
 
 const Likes = styled(FatText)`
