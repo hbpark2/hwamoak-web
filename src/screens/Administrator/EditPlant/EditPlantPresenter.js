@@ -149,9 +149,12 @@ const DetailInputWrap = styled.div`
 `;
 
 const TemperatureWrap = styled.div`
-  display: flex;
   margin: 30px auto;
+  .temperature_box {
+    display: flex;
+  }
 `;
+
 const TemperatureLabel = styled.label`
   display: flex;
   align-items: center;
@@ -165,8 +168,9 @@ const TemperatureLabel = styled.label`
   }
   span {
     display: block;
-    text-align: center;
-    width: 100px;
+    /* text-align: center; */
+    /* width: 100px; */
+    width: 80px;
   }
 
   .tem {
@@ -181,6 +185,12 @@ const TemperatureLabel = styled.label`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+const Message = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: tomato;
 `;
 
 const UPLOAD_FILE_MUTATION = gql`
@@ -472,50 +482,54 @@ const EditPlantPresenter = ({
             </DetailInputWrap>
 
             <TemperatureWrap>
-              <TemperatureLabel>
-                <span>적정온도</span>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue={temperatureMin}
-                  name="temperatureMin"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
+              <div className="temperature_box">
+                <TemperatureLabel>
+                  <span>적정온도</span>
+                  <TemperatureInput
+                    ref={register({
+                      required: 'Temperature is required.',
+                      validate: value => {
+                        return (
+                          !parseInt(value) > 0 ||
+                          !parseInt(value) < 40 ||
+                          '10보다크고 40보다작아야해'
+                        );
+                      },
+                    })}
+                    defaultValue={temperatureMin}
+                    name="temperatureMin"
+                    min="0"
+                    max="40"
+                    type="number"
+                    onKeyPress={checkInputNum}
+                  />
+                  &nbsp;<span className="tem">℃</span>
+                  <i>~</i>
+                  <TemperatureInput
+                    ref={register({
+                      required: 'Temperature is required.',
+                      validate: value => {
+                        return (
+                          !parseInt(value) > 0 ||
+                          !parseInt(value) < 40 ||
+                          '10보다크고 40보다작아야해'
+                        );
+                      },
+                    })}
+                    defaultValue={temperatureMax}
+                    name="temperatureMax"
+                    min="0"
+                    max="40"
+                    type="number"
+                    onKeyPress={checkInputNum}
+                  />
+                  &nbsp;<span className="tem">℃</span>
+                </TemperatureLabel>
+              </div>
+              <Message>
                 {(errors.temperatureMin || errors.temperatureMax) &&
-                  errors.temperatureMin.message}
-                <i>~</i>
-                <TemperatureInput
-                  ref={register({
-                    required: 'Temperature is required.',
-                    validate: value => {
-                      return (
-                        !parseInt(value) > 0 ||
-                        !parseInt(value) < 40 ||
-                        '10보다크고 40보다작아야해'
-                      );
-                    },
-                  })}
-                  defaultValue={temperatureMax}
-                  name="temperatureMax"
-                  min="0"
-                  max="40"
-                  type="number"
-                  onKeyPress={checkInputNum}
-                />
-                &nbsp;<span className="tem">℃</span>
-              </TemperatureLabel>
+                  '적정온도를 작성해주세요'}
+              </Message>
             </TemperatureWrap>
 
             <UploadPlantWrap>
