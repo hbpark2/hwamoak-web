@@ -9,6 +9,7 @@ import routes from 'components/Routes/routes';
 import Avatar from '../Avatar';
 // import Logo from 'assets/flower-pot.png';
 import Logo from 'assets/hwamoak_logo.png';
+import addPlantImg from 'assets/addPlant.png';
 
 import { useContext } from 'react';
 import { CurrentContext } from 'Context/ContextStore';
@@ -87,7 +88,9 @@ const Header = () => {
               </Icon>
               {seedLoggedIn && (
                 <Icon>
-                  <Link to="/plant/upload">uploadPlants</Link>
+                  <Link to="/plant/upload">
+                    <img src={addPlantImg} alt="addPlant" />
+                  </Link>
                 </Icon>
               )}
             </IconContainer>

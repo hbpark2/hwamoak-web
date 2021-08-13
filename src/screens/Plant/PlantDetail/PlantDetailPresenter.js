@@ -149,6 +149,13 @@ const DetailWrap = styled.div`
   }
 `;
 
+const Username = styled.span`
+  font-size: 12px;
+  display: block;
+  margin-left: 10px;
+  margin-top: 10px;
+`;
+
 const PlantDetailPresenter = ({
   id,
   title,
@@ -173,6 +180,7 @@ const PlantDetailPresenter = ({
   onDeletePlant,
   seedLoggedIn,
 }) => {
+  console.log(user?.username);
   return (
     <Container background={images[0].file}>
       <Layout>
@@ -190,7 +198,9 @@ const PlantDetailPresenter = ({
             </EditWrap>
           )}
 
-          <Title>{title}</Title>
+          <Title>
+            {title} <Username> - {user?.username}</Username>
+          </Title>
 
           <ImageWrap>
             {images.map((item, index) => {

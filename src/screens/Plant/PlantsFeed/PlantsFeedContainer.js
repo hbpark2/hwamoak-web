@@ -2,8 +2,8 @@ import { gql, useQuery } from '@apollo/client';
 import React, { useEffect } from 'react';
 import PlantsFeedPresenter from './PlantsFeedPresenter';
 const PLANTS_FEED_QUERY = gql`
-  query seeWholePlantsFeed {
-    seeWholePlantsFeed {
+  query seeWholePlantsFeed($lastId: Int) {
+    seeWholePlantsFeed(lastId: $lastId) {
       id
       title
       caption
@@ -38,34 +38,13 @@ const PlantsFeedContainer = () => {
     loading,
     refetch,
   } = useQuery(PLANTS_FEED_QUERY, {
-    skip: 0,
+    // skip: 0,
     variables: {
-      lastId: 0,
+      lastId: 3,
     },
   });
 
-  // const infiniteScroll = useCallback(() => {
-  //   const { documentElement, body } = document;
-
-  //   const scrollHeight = Math.max(
-  //     documentElement.scrollHeight,
-  //     body.scrollHeight,
-  //   );
-  //   const scrollTop = Math.max(documentElement.scrollTop, body.scrollTop);
-  //   const { clientHeight } = documentElement;
-
-  //   if (scrollTop + clientHeight + 200 >= scrollHeight) {
-  //     // perPage += pageLimit;
-  //     console.log('aa');
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', infiniteScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', infiniteScroll);
-  //   };
-  // }, [plantsData, infiniteScroll]);
+  console.log(plantsData?.seeWholePlantsFeed);
 
   useEffect(() => {
     refetch();
