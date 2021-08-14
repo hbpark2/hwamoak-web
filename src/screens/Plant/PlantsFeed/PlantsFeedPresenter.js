@@ -10,7 +10,6 @@ const Grid = styled.div`
   margin: 0 auto;
   display: grid;
   /* grid-auto-rows: 290px; */
-  /**haha */
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
 `;
