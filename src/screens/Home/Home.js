@@ -44,8 +44,8 @@ const MoreButtonWrap = styled.div`
 `;
 
 const FEED_QUERY = gql`
-  query seeFeed {
-    seeFeed {
+  query seeFeed($offset: Int!) {
+    seeFeed(offset: $offset) {
       ...PhotoFragment
       user {
         username
@@ -87,7 +87,11 @@ const PLANTS_FEED_QUERY = gql`
 `;
 
 const Home = () => {
-  const { data: photosData } = useQuery(FEED_QUERY);
+  const { data: photosData } = useQuery(FEED_QUERY, {
+    variables: {
+      offset: 0,
+    },
+  });
   const { data: plantsData, refetch } = useQuery(PLANTS_FEED_QUERY, {
     skip: 0,
   });
