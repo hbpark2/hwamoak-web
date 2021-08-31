@@ -10,6 +10,7 @@ import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SHashLoader from '../../components/HashLoader';
 
 const Container = styled.div`
   margin: 25px auto;
@@ -87,12 +88,16 @@ const PLANTS_FEED_QUERY = gql`
 `;
 
 const Home = () => {
-  const { data: photosData } = useQuery(FEED_QUERY, {
+  const { data: photosData, loading: photoLoading } = useQuery(FEED_QUERY, {
     variables: {
       offset: 0,
     },
   });
-  const { data: plantsData, refetch } = useQuery(PLANTS_FEED_QUERY, {
+  const {
+    data: plantsData,
+    loading: plantLoading,
+    refetch,
+  } = useQuery(PLANTS_FEED_QUERY, {
     skip: 0,
   });
 
@@ -107,20 +112,24 @@ const Home = () => {
   return (
     <Container>
       <PageTitle title="Home" />
-
-      {plantsData && (
-        <PlantsContainer>
-          {plantsData?.seePlantsFeed?.map(plant => {
-            return <Plant key={plant.id} {...plant} />;
-          })}
-        </PlantsContainer>
+      {plantLoading ? (
+        <SHashLoader size={34} screen={true} />
+      ) : (
+        plantsData && (
+          <>
+            <PlantsContainer>
+              {plantsData?.seePlantsFeed?.map(plant => {
+                return <Plant key={plant.id} {...plant} />;
+              })}
+            </PlantsContainer>
+            <MoreButtonWrap>
+              <Link to="/plant_feed">더보기</Link>
+            </MoreButtonWrap>
+          </>
+        )
       )}
-      <MoreButtonWrap>
-        <Link to="/plant_feed">더보기</Link>
-      </MoreButtonWrap>
-      {photosData?.seeFeed?.map(photo => (
-        <Photo key={photo.id} {...photo} />
-      ))}
+      {!photoLoading &&
+        photosData?.seeFeed?.map(photo => <Photo key={photo.id} {...photo} />)}
       <button onClick={() => logUserOut()}> Log out now !</button>
     </Container>
   );

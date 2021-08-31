@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { gql, useQuery } from '@apollo/client';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import PlantsFeedPresenter from './PlantsFeedPresenter';
 const PLANTS_FEED_QUERY = gql`
-  query seeWholePlantsFeed($lastId: Int) {
-    seeWholePlantsFeed(lastId: $lastId) {
+  query seeWholePlantsFeed($offset: Int) {
+    seeWholePlantsFeed(offset: $offset) {
       id
       title
       caption
@@ -33,30 +35,52 @@ const PLANTS_FEED_QUERY = gql`
 `;
 
 const PlantsFeedContainer = () => {
-  const {
-    data: plantsData,
-    loading,
-    refetch,
-  } = useQuery(PLANTS_FEED_QUERY, {
-    // skip: 0,
-    variables: {
-      lastId: 3,
-    },
-  });
+  const { data: plantsData, loading, fetchMore } = useQuery(PLANTS_FEED_QUERY);
+  const [hasMore, setHasMore] = useState(true);
+  const [update, setUpdate] = useState(false);
 
-  console.log(plantsData?.seeWholePlantsFeed);
+  const onLoadMore = async () => {
+    setUpdate(true);
+    await fetchMore({
+      variables: {
+        offset: plantsData?.seeWholePlantsFeed?.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (fetchMoreResult.seeWholePlantsFeed.length) {
+          setHasMore(true);
+        } else {
+          setHasMore(false);
+          setUpdate(false);
+        }
+        if (!fetchMoreResult) {
+          return prev;
+        } else {
+          return Object.assign({}, prev, {
+            seeWholePlantsFeed: [
+              ...prev.seeWholePlantsFeed,
+              ...fetchMoreResult.seeWholePlantsFeed,
+            ],
+          });
+        }
+      },
+    });
+  };
 
-  useEffect(() => {
-    refetch();
-    return () => {
-      refetch();
-    };
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  //   return () => {
+  //     refetch();
+  //   };
+  // }, [refetch]);
 
-  return loading ? (
-    'loading'
-  ) : (
-    <PlantsFeedPresenter plantsData={plantsData?.seeWholePlantsFeed} />
+  return (
+    <PlantsFeedPresenter
+      plantsData={plantsData}
+      hasMore={hasMore}
+      onLoadMore={onLoadMore}
+      loading={loading}
+      update={update}
+    />
   );
 };
 

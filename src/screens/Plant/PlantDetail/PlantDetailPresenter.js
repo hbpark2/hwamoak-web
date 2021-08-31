@@ -24,6 +24,7 @@ const Wrap = styled.div`
   margin-bottom: 60px;
   padding: 20px;
 `;
+
 const Title = styled.span`
   display: flex;
   justify-content: center;
@@ -32,6 +33,7 @@ const Title = styled.span`
   font-size: 22px;
   font-weight: 700;
 `;
+
 const ImageWrap = styled.div`
   margin-bottom: 20px;
   img {
@@ -41,6 +43,7 @@ const ImageWrap = styled.div`
     margin: 0 auto;
   }
 `;
+
 const Caption = styled.div`
   width: 80%;
   margin: 0 auto 20px;

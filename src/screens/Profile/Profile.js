@@ -208,6 +208,7 @@ const Profile = () => {
       },
     });
   };
+  
   const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
     variables: { username },
     onCompleted: followUserCompleted,

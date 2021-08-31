@@ -12,12 +12,15 @@ const Container = styled(Link)`
   /* min-height: 350px; */
   border: 1px solid ${props => props.theme.borderColor1};
   border-radius: 4px;
-  margin: 0 10px;
   padding: 20px 10px;
+  /* margin: 0 10px; */
+  width: ${props => (props.iswholefeed ? '31%' : 'auto')};
+  height: ${props => (props.iswholefeed ? '250px' : 'auto')};
+  margin: ${props => (props.iswholefeed ? '30px 1.15%' : ' 0 10px')};
 `;
 
 const Title = styled.div`
-  width: 140px;
+  width: ${props => (props.iswholefeed ? '100%' : '140px')};
   text-align: center;
   font-weight: 600;
   margin-bottom: 10px;
@@ -45,10 +48,19 @@ const Likes = styled(FatText)`
   margin-top: 10px;
 `;
 
-const Plant = ({ id, user, images, title, caption, isLiked, plantLikes }) => {
+const Plant = ({
+  id,
+  user,
+  images,
+  title,
+  caption,
+  isLiked,
+  plantLikes,
+  iswholefeed,
+}) => {
   return (
-    <Container key={id} to={`/plants/${id}`}>
-      <Title>{title}</Title>
+    <Container key={id} to={`/plants/${id}`} iswholefeed={iswholefeed}>
+      <Title iswholefeed={iswholefeed}>{title}</Title>
       <PhotoWrap>
         <PhotoFile src={images[0]?.file} alt="" />
       </PhotoWrap>
@@ -68,6 +80,7 @@ Plant.propTypes = {
   images: PropTypes.array.isRequired,
   isLiked: PropTypes.bool.isRequired,
   plantLikes: PropTypes.number.isRequired,
+  iswholefeed: PropTypes.string,
 };
 
 export default Plant;
