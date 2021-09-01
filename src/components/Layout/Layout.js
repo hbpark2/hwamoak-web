@@ -6,6 +6,9 @@ const Content = styled.main`
   padding-top: 45px;
   max-width: 930px;
   width: 100%;
+  @media screen and (max-width: 1279px) {
+    padding-top: 25px;
+  }
 `;
 
 const Layout = ({ children }) => {

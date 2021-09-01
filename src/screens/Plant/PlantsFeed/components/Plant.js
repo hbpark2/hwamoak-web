@@ -17,6 +17,12 @@ const Container = styled(Link)`
   width: ${props => (props.iswholefeed ? '31%' : 'auto')};
   height: ${props => (props.iswholefeed ? '250px' : 'auto')};
   margin: ${props => (props.iswholefeed ? '30px 1.15%' : ' 0 10px')};
+
+  @media screen and (max-width: 1279px) {
+    width: ${props => (props.iswholefeed ? '48%' : 'auto')};
+    height: ${props => (props.iswholefeed ? '250px' : 'auto')};
+    margin: ${props => (props.iswholefeed ? '15px 1%' : ' 0 10px')};
+  }
 `;
 
 const Title = styled.div`

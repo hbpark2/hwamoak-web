@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { useState } from 'react';
 import PlantsFeedPresenter from './PlantsFeedPresenter';
+
 const PLANTS_FEED_QUERY = gql`
   query seeWholePlantsFeed($offset: Int) {
     seeWholePlantsFeed(offset: $offset) {
