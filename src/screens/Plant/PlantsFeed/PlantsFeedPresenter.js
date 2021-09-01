@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
 import SHashLoader from '../../../components/HashLoader';
 import Layout from '../../../components/Layout/Layout';
+import { PageTitle } from '../../../components/PageTitle';
 import Plant from './components/Plant';
 
 const Container = styled.div`
@@ -30,6 +31,8 @@ const PlantsFeedPresenter = ({
     <SHashLoader size={34} screen={true} />
   ) : (
     <Container>
+      <PageTitle title="Plants List" />
+
       <Layout id="scrollArea">
         {/* <Grid> */}
         <Wrap>

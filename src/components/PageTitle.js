@@ -4,7 +4,7 @@ const { Helmet } = require('react-helmet-async');
 export const PageTitle = ({ title }) => {
   return (
     <Helmet>
-      <title> {title} </title> | HWAMOEK
+      <title> {title} | 화목 </title>
     </Helmet>
   );
 };
