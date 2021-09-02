@@ -68,7 +68,9 @@ const Header = () => {
       <Wrapper>
         <Column>
           <Link to="/">
-            <SLogo src={Logo} alt="logo" />
+            <h1>
+              <SLogo src={Logo} alt="화목" />
+            </h1>
           </Link>
         </Column>
         <Column>
@@ -96,7 +98,7 @@ const Header = () => {
             </IconContainer>
           ) : (
             <Link to={routes.home}>
-              <Button>Login</Button>
+              <Button>로그인</Button>
             </Link>
           )}
         </Column>

@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
@@ -18,22 +18,36 @@ import { PageTitle } from 'components/PageTitle';
 import Logo from 'assets/hwamoak_logo.png';
 import routes from 'components/Routes/routes';
 
-const FacebookLogin = styled.div`
-  color: #385285;
-  span {
-    margin-left: 10px;
-    font-weight: 600;
-  }
-`;
 const SLogo = styled.img`
   display: block;
   /* width: 40px; */
   width: 115px;
   margin: 0 auto;
 `;
+
+const SNSContainer = styled.div`
+  svg {
+    font-size: 45px;
+  }
+`;
+const SNSTitle = styled.span`
+  display: block;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.7;
+`;
+
+const FacebookLogin = styled.div`
+  color: #385285;
+  display: flex;
+  justify-content: center;
+`;
+
 const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
       ok
       token
       error
@@ -54,7 +68,7 @@ function Login() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: location?.state?.username || '',
+      email: location?.state?.email || '',
       password: location?.state?.password || '',
     },
   });
@@ -78,9 +92,9 @@ function Login() {
     if (loading) {
       return;
     }
-    const { username, password } = getValues();
+    const { email, password } = getValues();
     login({
-      variables: { username, password },
+      variables: { email, password },
     });
   };
   const clearLoginError = () => {
@@ -91,25 +105,25 @@ function Login() {
       <PageTitle title="Login" />
       <FormBox>
         <div>
-          <SLogo src={Logo} alt="logo" />
+          <SLogo src={Logo} alt="화목" />
         </div>
         <Notification message={location?.state?.message} />
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
             ref={register({
-              required: 'Username is required',
+              required: 'email is required',
               minLength: {
                 value: 3,
-                message: 'Username should be longer than 5 chars.',
+                message: 'email should be longer than 5 chars.',
               },
             })}
             onChange={clearLoginError}
-            name="username"
+            name="email"
             type="text"
-            placeholder="Username"
-            hasError={Boolean(errors?.username?.message)}
+            placeholder="이메일"
+            hasError={Boolean(errors?.email?.message)}
           />
-          <FormError message={errors?.username?.message} />
+          <FormError message={errors?.email?.message} />
           <Input
             ref={register({
               required: 'Password is required.',
@@ -117,26 +131,28 @@ function Login() {
             onChange={clearLoginError}
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호"
             hasError={Boolean(errors?.password?.message)}
           />
           <FormError message={errors?.password?.message} />
           <Button
             type="submit"
-            value={loading ? 'Loading...' : 'Log in'}
+            value={loading ? 'Loading...' : '로그인'}
             disabled={!formState.isValid || loading}
           />
           <FormError message={errors?.result?.message} />
         </form>
         <Separator />
-        <FacebookLogin>
-          <FontAwesomeIcon icon={faFacebookSquare} />
-          <span>Log in with Facebook</span>
-        </FacebookLogin>
+        <SNSContainer>
+          <SNSTitle>SNS 계정으로 간편로그인</SNSTitle>
+          <FacebookLogin>
+            <FontAwesomeIcon icon={faFacebook} />
+          </FacebookLogin>
+        </SNSContainer>
       </FormBox>
       <BottomBox
-        cta="Don't have an account?"
-        linkText="Sign up"
+        cta="계정이 아직 없으신가요?"
+        linkText="회원가입"
         link={routes.signUp}
       />
     </AuthLayout>

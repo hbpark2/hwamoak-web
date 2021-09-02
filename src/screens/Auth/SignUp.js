@@ -9,7 +9,6 @@ import Button from 'components/auth/Button';
 import FormBox from 'components/auth/FormBox';
 import Input from 'components/auth/Input';
 import { PageTitle } from 'components/PageTitle';
-import { FatLink } from 'components/shared';
 import routes from 'components/Routes/routes';
 import Logo from 'assets/hwamoak_logo.png';
 
@@ -19,7 +18,9 @@ const HeaderContainer = styled.div`
   align-items: center;
 `;
 
-const Subtitle = styled(FatLink)`
+const Subtitle = styled.h2`
+  font-weight: 600;
+  color: rgb(142, 142, 142);
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
@@ -56,7 +57,7 @@ const CREATE_ACCOUNT_MUTATION = gql`
 function SingUp() {
   const history = useHistory();
   const onCompleted = data => {
-    const { username, password } = getValues();
+    const { email, password } = getValues();
     const {
       createAccount: { ok },
     } = data;
@@ -65,7 +66,7 @@ function SingUp() {
     }
     history.push(routes.home, {
       message: 'Account created. Please log in.',
-      username,
+      email,
       password,
     });
   };
@@ -91,9 +92,7 @@ function SingUp() {
       <FormBox>
         <HeaderContainer>
           <SLogo src={Logo} alt="logo" />
-          <Subtitle>
-            Sign up to see photos and videos from your friends.
-          </Subtitle>
+          <Subtitle>화목에 오신 것을 환영합니다 :)</Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
@@ -102,21 +101,16 @@ function SingUp() {
             })}
             name="firstName"
             type="text"
-            placeholder="First Name"
+            placeholder="이름"
           />
-          <Input
-            ref={register}
-            type="text"
-            placeholder="Last Name"
-            name="lastName"
-          />
+          <Input ref={register} type="text" placeholder="성" name="lastName" />
           <Input
             ref={register({
               required: 'Email is required.',
             })}
             name="email"
             type="text"
-            placeholder="Email"
+            placeholder="이메일"
           />
           <Input
             ref={register({
@@ -124,7 +118,7 @@ function SingUp() {
             })}
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="별명"
           />
           <Input
             ref={register({
@@ -132,16 +126,16 @@ function SingUp() {
             })}
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호"
           />
           <Button
             type="submit"
-            value={loading ? 'Loading...' : 'Sign up'}
+            value={loading ? 'Loading...' : '회원가입'}
             disabled={!formState.isValid || loading}
           />
         </form>
       </FormBox>
-      <BottomBox cta="Have an account?" linkText="Log in" link={routes.home} />
+      <BottomBox cta="이미 계정이 있으신가요?" linkText="로그인" link={routes.home} />
     </AuthLayout>
   );
 }
