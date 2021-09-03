@@ -31,6 +31,7 @@ const CREATE_COMMENT = gql`
 const Comments = ({ photoId, author, caption, commentNumber, comments }) => {
   const { data: userData } = useUser();
   const { register, handleSubmit, setValue, getValues } = useForm();
+
   const createCommentUpdate = (cache, result) => {
     const { payload } = getValues();
     setValue('payload', '');

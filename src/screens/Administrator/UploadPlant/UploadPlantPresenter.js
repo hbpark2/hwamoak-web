@@ -382,7 +382,7 @@ const UploadPlantPresenter = () => {
       <Layout>
         <FormWrapper>
           <HeaderContainer>
-            <SLogo src={Logo} alt="logo" />
+            <SLogo src={Logo} alt="화목" />
             <Subtitle>
               Upload Plant for see photos and videos from your friends.
             </Subtitle>

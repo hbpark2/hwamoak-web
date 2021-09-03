@@ -91,7 +91,7 @@ function SingUp() {
       <PageTitle title="Sign up" />
       <FormBox>
         <HeaderContainer>
-          <SLogo src={Logo} alt="logo" />
+          <SLogo src={Logo} alt="화목" />
           <Subtitle>화목에 오신 것을 환영합니다 :)</Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
