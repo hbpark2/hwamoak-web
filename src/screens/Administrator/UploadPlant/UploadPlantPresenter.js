@@ -272,7 +272,7 @@ const UploadPlantPresenter = () => {
   const history = useHistory();
 
   const onCompleted = data => {
-    console.log(data);
+    history.push('/plant_feed');
   };
 
   const [uploadPlants, { loading }] = useMutation(UPLOAD_PLANT_MUTATION, {
@@ -312,12 +312,8 @@ const UploadPlantPresenter = () => {
 
   const onDeleteButtonClick = (e, idx, imageId) => {
     e.preventDefault();
-
     setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
     setFileList(prev => prev.filter((_, index) => index !== idx));
-
-    // deletePlantImage({ variables: { id: imageId } });
-    // console.log(imageId);
   };
 
   const onValid = data => {
@@ -344,7 +340,7 @@ const UploadPlantPresenter = () => {
       },
     });
     window.alert('Upload Complete');
-    history.push('/');
+    // history.push('/');
   };
 
   const checkInputNum = e => {

@@ -92,14 +92,14 @@ const Photo = ({
   comments,
 }) => {
   const updateToggleLike = (cache, result) => {
-    console.log(cache, result);
+    // console.log(cache, result);
     const {
       data: {
         toggleLike: { ok },
       },
     } = result;
     if (ok) {
-      console.log('time to update the cache ');
+      // console.log('time to update the cache ');
 
       const photoId = `Photo:${id}`;
       cache.modify({

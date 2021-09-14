@@ -366,7 +366,7 @@ const EditPlantPresenter = ({
 
   const onDeleteButtonClick = (e, idx, imageId) => {
     e.preventDefault();
-    console.log(imageId);
+    // console.log(imageId);
     if (imageId) {
       setOldPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
       setOldFileList(prev => prev.filter((_, index) => index !== idx));
