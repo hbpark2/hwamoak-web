@@ -213,31 +213,11 @@ const Message = styled.div`
   color: tomato;
 `;
 
-const DELETE_PLANTIMAGE_MUTATION = gql`
-  mutation deletePlantImage($id: Int!) {
-    deletePlantImage(id: $id) {
-      ok
-      error
-    }
-  }
-`;
-
-const UPLOAD_FILE_MUTATION = gql`
-  mutation uploadFile($images: [Upload]!) {
-    uploadFile(images: $images) {
-      ok
-      error
-      file
-      id
-    }
-  }
-`;
-
 const UPLOAD_PLANT_MUTATION = gql`
   mutation uploadPlants(
     $title: String!
     $caption: String
-    $images: [String]!
+    $images: [Upload]!
     $sunlight: Int
     $temperatureMin: Int
     $temperatureMax: Int
@@ -295,51 +275,49 @@ const UploadPlantPresenter = () => {
     console.log(data);
   };
 
-  const onUploadFileComplete = data => {
-    setImgLoading(false);
-    setFileList([...fileList, data.uploadFile.file]);
-    setPreviewPhotos([
-      ...previewPhotos,
-      { src: data.uploadFile.file, id: data.uploadFile.id },
-    ]);
-  };
-
   const [uploadPlants, { loading }] = useMutation(UPLOAD_PLANT_MUTATION, {
     onCompleted,
-  });
-
-  const [deletePlantImage] = useMutation(DELETE_PLANTIMAGE_MUTATION, {
-    onCompleted,
-  });
-
-  const [uploadFile] = useMutation(UPLOAD_FILE_MUTATION, {
-    onCompleted: onUploadFileComplete,
   });
 
   const onFileChange = async e => {
     const {
       target: { files },
     } = e;
+
+    //미리보기 이미지
+    let fileURLs = [];
+
+    let file;
+    let filesLength = files.length > 10 ? 10 : files.length;
+
+    for (let i = 0; i < filesLength; i++) {
+      file = files[i];
+
+      let reader = new FileReader();
+      reader.onload = () => {
+        fileURLs[i] = reader.result;
+        setPreviewPhotos([...previewPhotos, { src: fileURLs }]);
+      };
+      reader.readAsDataURL(file);
+    }
+
     if (files.length > 0) {
       //  파일 확장자 && 용량 체크
       const file = files[0];
-      // if (Utils.checkImageFile(file) && Utils.checkFileSize(file, 2)) {
-      //   uploadFile({ variables: { images: file } });
-      // }
-      if (Utils.checkImageFile(file)) {
-        uploadFile({ variables: { images: file } });
-      }
+      setFileList([...fileList, file]);
     }
-    setImgLoading(true);
+    // setImgLoading(true);
     return null;
   };
 
   const onDeleteButtonClick = (e, idx, imageId) => {
     e.preventDefault();
-    deletePlantImage({ variables: { id: imageId } });
+
     setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
     setFileList(prev => prev.filter((_, index) => index !== idx));
-    console.log(imageId);
+
+    // deletePlantImage({ variables: { id: imageId } });
+    // console.log(imageId);
   };
 
   const onValid = data => {
@@ -366,7 +344,7 @@ const UploadPlantPresenter = () => {
       },
     });
     window.alert('Upload Complete');
-    history.goBack();
+    history.push('/');
   };
 
   const checkInputNum = e => {

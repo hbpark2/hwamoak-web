@@ -27,7 +27,7 @@ const SLogo = styled.img`
 
 const SNSContainer = styled.div`
   svg {
-    font-size: 45px;
+    font-size: 35px;
   }
 `;
 const SNSTitle = styled.span`

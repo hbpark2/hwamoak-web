@@ -42,6 +42,7 @@ const MoreButtonWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 0 0 20px;
+  padding-right: 10px;
 `;
 
 const FEED_QUERY = gql`

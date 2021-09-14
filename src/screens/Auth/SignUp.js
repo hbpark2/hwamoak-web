@@ -33,6 +33,12 @@ const SLogo = styled.img`
   margin: 0 auto;
 `;
 
+const InputBox = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+const SInput = styled(Input)``;
+
 const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount(
     $firstName: String!
@@ -95,39 +101,54 @@ function SingUp() {
           <Subtitle>화목에 오신 것을 환영합니다 :)</Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
-          <Input
-            ref={register({
-              required: 'First Name is required.',
-            })}
-            name="firstName"
-            type="text"
-            placeholder="이름"
-          />
-          <Input ref={register} type="text" placeholder="성" name="lastName" />
-          <Input
-            ref={register({
-              required: 'Email is required.',
-            })}
-            name="email"
-            type="text"
-            placeholder="이메일"
-          />
-          <Input
-            ref={register({
-              required: 'Username is required.',
-            })}
-            name="username"
-            type="text"
-            placeholder="별명"
-          />
-          <Input
-            ref={register({
-              required: 'Password is required.',
-            })}
-            name="password"
-            type="password"
-            placeholder="비밀번호"
-          />
+          <InputBox>
+            <SInput
+              ref={register({
+                required: 'First Name is required.',
+              })}
+              name="firstName"
+              type="text"
+              placeholder="이름"
+            />
+          </InputBox>
+          <InputBox>
+            <SInput
+              ref={register}
+              type="text"
+              placeholder="성"
+              name="lastName"
+            />
+          </InputBox>
+          <InputBox>
+            <SInput
+              ref={register({
+                required: 'Email is required.',
+              })}
+              name="email"
+              type="text"
+              placeholder="이메일"
+            />
+          </InputBox>
+          <InputBox>
+            <SInput
+              ref={register({
+                required: 'Username is required.',
+              })}
+              name="username"
+              type="text"
+              placeholder="별명"
+            />
+          </InputBox>
+          <InputBox>
+            <SInput
+              ref={register({
+                required: 'Password is required.',
+              })}
+              name="password"
+              type="password"
+              placeholder="비밀번호"
+            />
+          </InputBox>
           <Button
             type="submit"
             value={loading ? 'Loading...' : '회원가입'}
@@ -135,7 +156,11 @@ function SingUp() {
           />
         </form>
       </FormBox>
-      <BottomBox cta="이미 계정이 있으신가요?" linkText="로그인" link={routes.home} />
+      <BottomBox
+        cta="이미 계정이 있으신가요?"
+        linkText="로그인"
+        link={routes.home}
+      />
     </AuthLayout>
   );
 }

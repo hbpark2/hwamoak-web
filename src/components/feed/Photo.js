@@ -31,6 +31,11 @@ const PhotoContainer = styled.div`
   border-radius: 4px;
   margin: 0 auto;
   margin-bottom: 60px;
+
+  @media screen and (max-width: 640px) {
+    border-left: none;
+    border-right: none;
+  }
 `;
 
 const PhotoHeader = styled.div`
@@ -79,7 +84,7 @@ const Likes = styled(FatText)`
 const Photo = ({
   id,
   user,
-  file,
+  images,
   isLiked,
   likes,
   caption,
@@ -132,7 +137,7 @@ const Photo = ({
         </Link>
       </PhotoHeader>
 
-      <PhotoFile src={file} alt="" />
+      <PhotoFile src={images[0].file} alt="" />
 
       <PhotoData>
         <PhotoActions>
@@ -174,7 +179,7 @@ Photo.propTypes = {
     username: PropTypes.string.isRequired,
   }),
   caption: PropTypes.string,
-  file: PropTypes.string.isRequired,
+  images: PropTypes.array.isRequired,
   isLiked: PropTypes.bool.isRequired,
   likes: PropTypes.number.isRequired,
   commentNumber: PropTypes.number.isRequired,

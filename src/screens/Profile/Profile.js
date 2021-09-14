@@ -5,12 +5,17 @@ import { useParams } from 'react-router';
 import { PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
 import { FatText } from 'components/shared';
-import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faComment,
+  faUserCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/auth/Button';
 import { PageTitle } from 'components/PageTitle';
 import useUser from 'hooks/useUser';
 import Layout from 'components/Layout/Layout';
+import { Link } from 'react-router-dom';
 
 const FOLLOW_USER_MUTATION = gql`
   mutation followUser($username: String!) {
@@ -32,7 +37,22 @@ const UNFOLLOW_USER_MUTATION = gql`
 
 const Header = styled.div`
   display: flex;
+  svg {
+    font-size: 160px;
+    margin-left: 50px;
+    margin-right: 150px;
+  }
+  @media screen and (max-width: 1024px) {
+    justify-content: space-between;
+    padding: 0 20px;
+
+    svg {
+      margin: 0;
+      font-size: 100px;
+    }
+  }
 `;
+
 const Avatar = styled.img`
   margin-left: 50px;
   height: 160px;
@@ -40,17 +60,37 @@ const Avatar = styled.img`
   border-radius: 50%;
   margin-right: 150px;
   background-color: #2c2c2c;
+
+  @media screen and (max-width: 1024px) {
+    width: 100px;
+    height: 100px;
+    margin: 0;
+  }
 `;
+
 const Column = styled.div``;
+
 const Username = styled.h3`
   font-size: 28px;
   font-weight: 400;
+  @media screen and (max-width: 767px) {
+    font-size: 20px;
+  }
 `;
+
 const Row = styled.div`
   display: flex;
   margin-bottom: 20px;
   font-size: 16px;
 `;
+
+const UserNameWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+`;
+
 const List = styled.ul`
   display: flex;
 `;
@@ -58,10 +98,10 @@ const Item = styled.li`
   margin-right: 20px;
 `;
 const Value = styled(FatText)`
-  font-size: 18px;
+  font-size: 14px;
 `;
 const Name = styled(FatText)`
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const Grid = styled.div`
@@ -70,6 +110,11 @@ const Grid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-top: 50px;
+  @media screen and (max-width: 768px) {
+    margin: 30px 0 0;
+    grid-auto-rows: 130px;
+    gap: 10px;
+  }
 `;
 
 const Photo = styled.div`
@@ -106,9 +151,44 @@ const Icon = styled.span`
 const ProfileBtn = styled(Button).attrs({
   as: 'span',
 })`
+  width: 60%;
   margin-left: 10px;
   margin-top: 0;
   cursor: pointer;
+  background: ${props => props.theme.contentBg};
+  border: ${props => props.theme.contentBorder};
+  color: #333;
+  transition: all 0.3s;
+  @media screen and (min-width: 1280px) {
+    width: 100%;
+    &:hover {
+      background: #333;
+      color: ${props => props.theme.bgColor};
+    }
+  }
+`;
+
+const ModifyLink = styled(Link)`
+  width: 60%;
+  margin-left: 10px;
+  margin-top: 0;
+  padding: 8px 0px;
+  cursor: pointer;
+  border-radius: 3px;
+  background: ${props => props.theme.contentBg};
+  border: ${props => props.theme.contentBorder};
+  text-align: center;
+  color: #333;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s;
+  @media screen and (min-width: 1280px) {
+    width: 100%;
+    &:hover {
+      background: #333;
+      color: ${props => props.theme.bgColor};
+    }
+  }
 `;
 
 const SEE_PROFILE_QUERY = gql`
@@ -208,7 +288,7 @@ const Profile = () => {
       },
     });
   };
-  
+
   const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
     variables: { username },
     onCompleted: followUserCompleted,
@@ -217,12 +297,25 @@ const Profile = () => {
   const getButton = seeProfile => {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
-      return <ProfileBtn>Edit Profile</ProfileBtn>;
+      return (
+        <ModifyLink
+          to={{
+            pathname: `/edit/${data?.seeProfile?.username}`,
+            state: {
+              username: data?.seeProfile?.username,
+              avatar: data?.seeProfile?.avatar,
+            },
+          }}
+        >
+          프로필 수정
+        </ModifyLink>
+      );
     }
+
     if (isFollowing) {
-      return <ProfileBtn onClick={unfollowUser}>Unfollow</ProfileBtn>;
+      return <ProfileBtn onClick={unfollowUser}>팔로우 취소</ProfileBtn>;
     } else {
-      return <ProfileBtn onClick={followUser}>follow</ProfileBtn>;
+      return <ProfileBtn onClick={followUser}>팔로우</ProfileBtn>;
     }
   };
   return (
@@ -233,12 +326,17 @@ const Profile = () => {
         }
       />
       <Header>
-        <Avatar src={data?.seeProfile?.avatar} />
+        {data?.seeProfile?.avatar ? (
+          <Avatar src={data?.seeProfile?.avatar} />
+        ) : (
+          <FontAwesomeIcon icon={faUserCircle} color="#8c8c82" />
+        )}
+
         <Column>
-          <Row>
+          <UserNameWrap>
             <Username>{data?.seeProfile?.username}</Username>
             {data?.seeProfile ? getButton(data?.seeProfile) : null}
-          </Row>
+          </UserNameWrap>
           <Row>
             <List>
               <Item>
@@ -264,7 +362,7 @@ const Profile = () => {
       </Header>
       <Grid>
         {data?.seeProfile?.photos.map(photo => (
-          <Photo key={photo.id} bg={photo.file}>
+          <Photo key={photo.id} bg={photo.images[0].file}>
             <Icons>
               <Icon>
                 <FontAwesomeIcon icon={faHeart} />

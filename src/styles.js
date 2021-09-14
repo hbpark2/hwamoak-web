@@ -6,10 +6,14 @@ export const lightTheme = {
   fontColor: 'rgb(38,38,38)',
   bgColor: '#fffef2',
   beige2: '#f6f5e8',
+  deepGreen: '#204a23',
+  contentBg: 'rgba(246, 245, 232, 1)',
+  contentBorder: '1px solid rgb(219, 219, 219)',
+  borderColor: 'rgba(219, 219, 219,0.5)',
+
   waterColor: 'rgba(92, 184, 255,0.3)',
   sunlightColor: 'rgba(255, 208, 99,0.3)',
   temperatureColor: 'rgba(255, 212, 217,0.3)',
-
   waterAccentColor: 'rgba(92, 184, 255,0.8)',
   sunlightAccentColor: 'rgba(255, 208, 99,0.8)',
   temperatureAccentColor: 'rgba(255, 212, 217,0.8)',

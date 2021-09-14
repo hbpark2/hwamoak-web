@@ -215,23 +215,13 @@ const Message = styled.div`
   color: tomato;
 `;
 
-const UPLOAD_FILE_MUTATION = gql`
-  mutation uploadFile($images: [Upload]!) {
-    uploadFile(images: $images) {
-      ok
-      error
-      file
-      id
-    }
-  }
-`;
-
 const EDIT_PLANT_MUTATION = gql`
   mutation editPlant(
     $id: Int!
     $title: String!
     $caption: String
-    $images: [String]!
+    $images: [Upload]!
+    $originalImages: [String]!
     $sunlight: Int
     $temperatureMin: Int
     $temperatureMax: Int
@@ -250,6 +240,7 @@ const EDIT_PLANT_MUTATION = gql`
       title: $title
       caption: $caption
       images: $images
+      originalImages: $originalImages
       sunlight: $sunlight
       temperatureMin: $temperatureMin
       temperatureMax: $temperatureMax
@@ -303,6 +294,8 @@ const EditPlantPresenter = ({
   });
   const [previewPhotos, setPreviewPhotos] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [oldPreviewPhotos, setOldPreviewPhotos] = useState([]);
+  const [oldFileList, setOldFileList] = useState([]);
   const [awater, setWater] = useState(water);
   const [asunlight, setSunlight] = useState(sunlight);
   const [imgLoading, setImgLoading] = useState(false);
@@ -319,8 +312,8 @@ const EditPlantPresenter = ({
       fileListArr.push(item.file);
       previewArr.push({ src: item.file, id: item.id });
 
-      setFileList(fileListArr);
-      setPreviewPhotos(previewArr);
+      setOldFileList(fileListArr);
+      setOldPreviewPhotos(previewArr);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -331,53 +324,59 @@ const EditPlantPresenter = ({
     return `${line} \n`;
   });
   const defaultCaption = defaultCaptionArr.join().replaceAll(',', '');
-  const onCompleted = data => {
-    console.log(data);
-  };
 
-  const onUploadFileComplete = data => {
-    setImgLoading(false);
-    setFileList([...fileList, data.uploadFile.file]);
-    setPreviewPhotos([
-      ...previewPhotos,
-      { src: data.uploadFile.file, id: data.uploadFile.id },
-    ]);
+  const onCompleted = data => {
+    history.push(`/plants/${id}`);
   };
 
   const [editPlant, { loading }] = useMutation(EDIT_PLANT_MUTATION, {
     onCompleted,
   });
 
-  const [deletePlantImage] = useMutation(DELETE_PLANTIMAGE_MUTATION, {
-    onCompleted,
-  });
-
-  const [uploadFile] = useMutation(UPLOAD_FILE_MUTATION, {
-    onCompleted: onUploadFileComplete,
-  });
-
   const onFileChange = async e => {
     const {
       target: { files },
     } = e;
+
+    //미리보기 이미지
+    let fileURLs = [];
+
+    let file;
+    let filesLength = files.length > 10 ? 10 : files.length;
+
+    for (let i = 0; i < filesLength; i++) {
+      file = files[i];
+
+      let reader = new FileReader();
+      reader.onload = () => {
+        fileURLs[i] = reader.result;
+        setPreviewPhotos([...previewPhotos, { src: fileURLs }]);
+      };
+      reader.readAsDataURL(file);
+    }
+
     if (files.length > 0) {
       //  파일 확장자 && 용량 체크
       const file = files[0];
-      if (Utils.checkImageFile(file) && Utils.checkFileSize(file, 2)) {
-        uploadFile({ variables: { images: file } });
-      }
+      setFileList([...fileList, file]);
     }
-
-    setImgLoading(true);
+    // setImgLoading(true);
     return null;
   };
 
   const onDeleteButtonClick = (e, idx, imageId) => {
     e.preventDefault();
-    // deletePlantImage({ variables: { id: imageId } });
-    setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
-    setFileList(prev => prev.filter((_, index) => index !== idx));
     console.log(imageId);
+    if (imageId) {
+      setOldPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
+      setOldFileList(prev => prev.filter((_, index) => index !== idx));
+    } else {
+      setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
+      setFileList(prev => prev.filter((_, index) => index !== idx));
+    }
+
+    // deletePlantImage({ variables: { id: imageId } });
+    // console.log(imageId);
   };
 
   const onValid = data => {
@@ -389,6 +388,7 @@ const EditPlantPresenter = ({
         id: id,
         title: data.title,
         caption: captionRemake,
+        originalImages: oldFileList,
         images: fileList,
         water: awater,
         sunlight: asunlight,
@@ -405,7 +405,6 @@ const EditPlantPresenter = ({
       },
     });
     window.alert('Edit Complete');
-    history.push(`/plants/${id}`);
   };
 
   const checkInputNum = e => {
@@ -568,6 +567,24 @@ const EditPlantPresenter = ({
                     slidesPerView={1}
                     pagination={{ clickable: true }}
                   >
+                    {oldPreviewPhotos.map((item, index) => {
+                      let makeKey = index;
+                      return (
+                        <SwiperSlide key={makeKey}>
+                          {/* <ImageItem> */}
+                          <img src={item.src} alt="" />
+                          <DeleteButton
+                            onClick={e =>
+                              onDeleteButtonClick(e, index, item.id)
+                            }
+                          >
+                            삭제
+                          </DeleteButton>
+                          {/* </ImageItem> */}
+                        </SwiperSlide>
+                      );
+                    })}
+
                     {previewPhotos.map((item, index) => {
                       let makeKey = index;
                       return (

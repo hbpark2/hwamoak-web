@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { gql, useQuery } from '@apollo/client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import PlantsFeedPresenter from './PlantsFeedPresenter';
 
@@ -36,7 +36,12 @@ const PLANTS_FEED_QUERY = gql`
 `;
 
 const PlantsFeedContainer = () => {
-  const { data: plantsData, loading, fetchMore } = useQuery(PLANTS_FEED_QUERY);
+  const {
+    data: plantsData,
+    loading,
+    fetchMore,
+    refetch,
+  } = useQuery(PLANTS_FEED_QUERY);
   const [hasMore, setHasMore] = useState(true);
   const [update, setUpdate] = useState(false);
 
@@ -67,12 +72,12 @@ const PlantsFeedContainer = () => {
     });
   };
 
-  // useEffect(() => {
-  //   refetch();
-  //   return () => {
-  //     refetch();
-  //   };
-  // }, [refetch]);
+  useEffect(() => {
+    refetch();
+    return () => {
+      refetch();
+    };
+  }, [refetch]);
 
   return (
     <PlantsFeedPresenter

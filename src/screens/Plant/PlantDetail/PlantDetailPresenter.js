@@ -185,7 +185,7 @@ const PlantDetailPresenter = ({
 }) => {
   console.log(user?.username);
   return (
-    <Container background={images[0].file}>
+    <Container background={images[0]?.file}>
       <Layout>
         <Wrap>
           {seedLoggedIn && (
@@ -206,7 +206,7 @@ const PlantDetailPresenter = ({
           </Title>
 
           <ImageWrap>
-            {images.map((item, index) => {
+            {images?.map((item, index) => {
               let imgKey = `plantImg${index}`;
               return <img key={imgKey} src={item.file} alt="" />;
             })}

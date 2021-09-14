@@ -18,7 +18,7 @@ import { CurrentContext } from 'Context/ContextStore';
 
 const SHeader = styled.header`
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme.borderColor};
+  border-bottom: 1px solid ${props => props.theme.borderColor2};
   background-color: ${props => props.theme.bgColor};
   padding: 18px 0px;
   display: flex;
@@ -28,6 +28,7 @@ const SHeader = styled.header`
 
 const Wrapper = styled.div`
   max-width: 930px;
+  padding: 0 10px;
   width: 100%;
   display: flex;
   justify-content: space-between;

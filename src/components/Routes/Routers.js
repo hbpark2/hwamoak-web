@@ -17,6 +17,7 @@ import uploadPlant from 'screens/Administrator/UploadPlant';
 import PlantDetailContainer from 'screens/Plant/PlantDetail/PlantDetailContainer';
 import EditPlantContainer from '../../screens/Administrator/EditPlant';
 import PlantsFeedContainer from '../../screens/Plant/PlantsFeed';
+import Modify from '../../screens/Auth/Modify';
 
 const Routers = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -29,7 +30,7 @@ const Routers = () => {
       <Route path={`/plants/:plantId`} component={PlantDetailContainer} />
       <Route path={`/users/:username`} component={Profile} />
       <Route path="/plant_feed" component={PlantsFeedContainer} />
-
+      <Route path="/edit/:username" component={Modify} />
       {seedLoggedIn && <Route path="/plant/upload" component={uploadPlant} />}
       {seedLoggedIn && (
         <Route path="/plant/edit/:plantId" component={EditPlantContainer} />
