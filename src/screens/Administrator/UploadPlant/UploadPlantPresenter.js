@@ -273,7 +273,7 @@ const UploadPlantPresenter = () => {
 
   const onCompleted = data => {
     history.push('/plant_feed');
-  };
+  }; 
 
   const [uploadPlants, { loading }] = useMutation(UPLOAD_PLANT_MUTATION, {
     onCompleted,
