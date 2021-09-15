@@ -1,5 +1,25 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
 import reset from 'styled-reset';
+
+export const FadeInTopToBottom = keyframes`
+  from {
+    top: -30px;
+    opacity:0;
+  }
+  to {
+    top: 0px;
+    opacity:1;
+  }
+`;
+
+export const FadeIn = keyframes`
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+`;
 
 export const lightTheme = {
   accent: '#0095f6',
@@ -37,18 +57,37 @@ export const GlobalStyles = createGlobalStyle`
     * {
       box-sizing:border-box;
     }
+    html{
+      background-color:${props => props.theme.bgColor};
+    }
 
     body{
-      background-color:${props => props.theme.bgColor};
+      background-color:${props => props.theme.bgColor};      
       font-size:14px;
       /* font-family: 'Spoqa Han Sans Neo', 'Noto Sans KR','Open Sans', 'Malgun Gothic',
     '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif; */
       font-family: 'Noto Sans KR','Open Sans', 'Malgun Gothic',
     '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif;
-
       color: ${props => props.theme.fontColor};
+
+      &::-webkit-scrollbar {
+        width: 7px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,0.5);
+        border-radius:5px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: ${props => props.theme.beige2};
+      }
+
     }
+
+    #wrapper{
+    }
+
     img{
+
       display:block;
     }
     input {

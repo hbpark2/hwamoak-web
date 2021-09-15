@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
-
+import { offsetLimitPagination } from '@apollo/client/utilities';
 const TOKEN = 'token';
 const DARK_MODE = 'DARK_MODE';
 
@@ -49,7 +49,7 @@ export const disableDarkMode = () => {
 // uri: process.env.REACT_APP_LOCAL_HWAMOAK_BACKEND,
 
 const link = createUploadLink({
-  uri: process.env.REACT_APP_LOCAL_HWAMOAK_BACKEND,
+  uri: 'http://localhost:4000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -68,6 +68,11 @@ export const client = new ApolloClient({
     typePolicies: {
       User: {
         keyFields: obj => `User:${obj.username}`,
+      },
+      Query: {
+        fields: {
+          seeWholePlantsFeed: offsetLimitPagination(),
+        },
       },
     },
   }),

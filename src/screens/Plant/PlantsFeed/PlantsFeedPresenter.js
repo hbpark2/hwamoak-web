@@ -40,7 +40,7 @@ const PlantsFeedPresenter = ({
             <InfiniteScroll
               dataLength={plantsData?.seeWholePlantsFeed?.length}
               next={onLoadMore}
-              hasMore={hasMore}
+              hasMore={true}
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -54,11 +54,11 @@ const PlantsFeedPresenter = ({
           )}
         </Wrap>
         {update && <SHashLoader size={34} />}
-        {!hasMore && (
+        {/* {!hasMore && (
           <p style={{ textAlign: 'center' }}>
             <b>Yay! You have seen it all</b>
           </p>
-        )}
+        )} */}
       </Layout>
     </Container>
   );

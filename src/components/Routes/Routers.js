@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import NotFound from 'screens/NorFound';
 import Home from 'screens/Home/Home';
 import Login from 'screens/Auth/Login';
 import SignUp from 'screens/Auth/SignUp';
@@ -18,6 +17,8 @@ import PlantDetailContainer from 'screens/Plant/PlantDetail/PlantDetailContainer
 import EditPlantContainer from '../../screens/Administrator/EditPlant';
 import PlantsFeedContainer from '../../screens/Plant/PlantsFeed';
 import Modify from '../../screens/Auth/Modify';
+import UploadPhoto from '../../screens/Photo/UploadPhoto';
+import HashLoader from '../HashLoader';
 
 const Routers = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -31,11 +32,14 @@ const Routers = () => {
       <Route path={`/users/:username`} component={Profile} />
       <Route path="/plant_feed" component={PlantsFeedContainer} />
       <Route path="/edit/:username" component={Modify} />
+      <Route path="/photo/upload" component={UploadPhoto} />
+
       {seedLoggedIn && <Route path="/plant/upload" component={uploadPlant} />}
       {seedLoggedIn && (
         <Route path="/plant/edit/:plantId" component={EditPlantContainer} />
       )}
-      <Route component={NotFound} />
+
+      <Route component={() => <HashLoader screen />} />
     </Switch>
   );
 };

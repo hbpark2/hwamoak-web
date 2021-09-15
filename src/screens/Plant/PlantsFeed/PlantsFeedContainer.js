@@ -42,7 +42,7 @@ const PlantsFeedContainer = () => {
     fetchMore,
     refetch,
   } = useQuery(PLANTS_FEED_QUERY);
-  const [hasMore, setHasMore] = useState(true);
+
   const [update, setUpdate] = useState(false);
 
   const onLoadMore = async () => {
@@ -51,25 +51,26 @@ const PlantsFeedContainer = () => {
       variables: {
         offset: plantsData?.seeWholePlantsFeed?.length,
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (fetchMoreResult.seeWholePlantsFeed.length) {
-          setHasMore(true);
-        } else {
-          setHasMore(false);
-          setUpdate(false);
-        }
-        if (!fetchMoreResult) {
-          return prev;
-        } else {
-          return Object.assign({}, prev, {
-            seeWholePlantsFeed: [
-              ...prev.seeWholePlantsFeed,
-              ...fetchMoreResult.seeWholePlantsFeed,
-            ],
-          });
-        }
-      },
+      // updateQuery: (prev, { fetchMoreResult }) => {
+      //   if (fetchMoreResult.seeWholePlantsFeed.length) {
+      //     setHasMore(true);
+      //   } else {
+      //     setHasMore(false);
+      //     setUpdate(false);
+      //   }
+      //   if (!fetchMoreResult) {
+      //     return prev;
+      //   } else {
+      //     return Object.assign({}, prev, {
+      //       seeWholePlantsFeed: [
+      //         ...prev.seeWholePlantsFeed,
+      //         ...fetchMoreResult.seeWholePlantsFeed,
+      //       ],
+      //     });
+      //   }
+      // },
     });
+    setUpdate(false);
   };
 
   useEffect(() => {
@@ -82,7 +83,6 @@ const PlantsFeedContainer = () => {
   return (
     <PlantsFeedPresenter
       plantsData={plantsData}
-      hasMore={hasMore}
       onLoadMore={onLoadMore}
       loading={loading}
       update={update}

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FatText } from 'components/shared';
 import { Link } from 'react-router-dom';
+import { FadeIn } from '../../styles';
 
 const Container = styled(Link)`
   display: block;
@@ -12,6 +13,8 @@ const Container = styled(Link)`
   border-radius: 4px;
   margin: 0 10px;
   padding: 10px;
+  animation-name: ${FadeIn};
+  animation-duration: 0.5s;
 `;
 
 const Title = styled.div`

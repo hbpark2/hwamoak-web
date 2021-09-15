@@ -9,6 +9,9 @@ const SEE_PLANT_QUERY = gql`
   query seePlant($id: Int!) {
     seePlant(id: $id) {
       id
+      category
+      pot
+      soil
       title
       caption
       water

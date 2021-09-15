@@ -6,13 +6,16 @@ const SAvatar = styled.div`
   border-radius: 50%;
   /* background-color: #2c2c2c; */
   overflow: hidden;
+  background: ${props => `url(${props.background})`};
+  background-size: cover;
+  background-position: center;
 `;
-const Img = styled.img`
-  max-width: 100%;
-`;
+// const Img = styled.img`
+//   max-width: 100%;
+// `;
 
 const Avatar = ({ url = '', lg = false }) => {
-  return <SAvatar lg={lg}>{url !== '' ? <Img src={url} /> : null}</SAvatar>;
+  return <SAvatar lg={lg} background={url} />;
 };
 
 export default Avatar;

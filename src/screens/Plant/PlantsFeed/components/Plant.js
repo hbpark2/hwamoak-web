@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FatText } from 'components/shared';
 import { Link } from 'react-router-dom';
+import { FadeInTopToBottom } from '../../../../styles';
 
 const Container = styled(Link)`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,6 +19,8 @@ const Container = styled(Link)`
   width: ${props => (props.iswholefeed ? '31%' : 'auto')};
   height: ${props => (props.iswholefeed ? '250px' : 'auto')};
   margin: ${props => (props.iswholefeed ? '30px 1.15%' : ' 0 10px')};
+  animation-name: ${FadeInTopToBottom};
+  animation-duration: 1.5s;
 
   @media screen and (max-width: 1279px) {
     width: ${props => (props.iswholefeed ? '48%' : 'auto')};

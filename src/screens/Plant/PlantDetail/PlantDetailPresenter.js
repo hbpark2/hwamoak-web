@@ -161,6 +161,9 @@ const Username = styled.span`
 
 const PlantDetailPresenter = ({
   id,
+  category,
+  pot,
+  soil,
   title,
   caption,
   water,
@@ -276,6 +279,18 @@ const PlantDetailPresenter = ({
             </ObjectOfPlant>
           </IconWrap>
           <DetailWrap>
+            <dl>
+              <dt>카테고리</dt>
+              <dd> {category}</dd>
+            </dl>
+            <dl>
+              <dt>화분</dt>
+              <dd> {pot}</dd>
+            </dl>
+            <dl>
+              <dt>흙</dt>
+              <dd> {soil}</dd>
+            </dl>
             <dl>
               <dt>문</dt>
               <dd> {plantDivision}</dd>

@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { faCompass, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,6 +13,7 @@ import addPlantImg from 'assets/addPlant.png';
 
 import { useContext } from 'react';
 import { CurrentContext } from 'Context/ContextStore';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 //
 
@@ -53,6 +54,7 @@ const Button = styled.span`
   color: white;
   font-weight: 600;
 `;
+
 const SLogo = styled.img`
   display: block;
   width: 40px;
@@ -78,15 +80,8 @@ const Header = () => {
           {isLoggedIn ? (
             <IconContainer>
               <Icon>
-                <FontAwesomeIcon icon={faCompass} size="lg" />
-              </Icon>
-              <Icon>
-                <Link to={`/users/${data?.me?.username}`}>
-                  {data?.me?.avatar ? (
-                    <Avatar url={data?.me?.avatar} />
-                  ) : (
-                    <FontAwesomeIcon icon={faUser} />
-                  )}
+                <Link to="/photo/upload">
+                  <FontAwesomeIcon icon={faCamera} size="lg" />
                 </Link>
               </Icon>
               {seedLoggedIn && (
@@ -96,6 +91,15 @@ const Header = () => {
                   </Link>
                 </Icon>
               )}
+              <Icon>
+                <Link to={`/users/${data?.me?.username}`}>
+                  {data?.me?.avatar ? (
+                    <Avatar url={data?.me?.avatar} />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} />
+                  )}
+                </Link>
+              </Icon>
             </IconContainer>
           ) : (
             <Link to={routes.home}>

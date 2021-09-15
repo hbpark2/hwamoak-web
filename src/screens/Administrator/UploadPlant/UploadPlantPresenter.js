@@ -9,13 +9,10 @@ import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import Utils from 'utils/Utils';
-import { getBase64Format } from 'utils/base64';
 import gql from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import Button from 'components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
-import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from './components/Gauge';
 import { useHistory } from 'react-router';
@@ -24,6 +21,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
 import Loading from '../../../components/Loading';
+import Select from '../../../components/Select';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -213,8 +211,25 @@ const Message = styled.div`
   color: tomato;
 `;
 
+const SelectWrap = styled.div`
+  select {
+    width: 200px;
+    margin: 10px 0;
+    padding: 5px;
+    background-color: ${props => props.theme.beige2};
+    border: ${props => props.theme.contentBorder};
+    border-radius: 5px;
+    &:focus {
+      outline: none;
+    }
+  }
+`;
+
 const UPLOAD_PLANT_MUTATION = gql`
   mutation uploadPlants(
+    $category: String!
+    $pot: String!
+    $soil: String!
     $title: String!
     $caption: String
     $images: [Upload]!
@@ -232,6 +247,9 @@ const UPLOAD_PLANT_MUTATION = gql`
     $plantHabitat: String
   ) {
     uploadPlants(
+      category: $category
+      pot: $pot
+      soil: $soil
       title: $title
       caption: $caption
       images: $images
@@ -258,7 +276,7 @@ const UPLOAD_PLANT_MUTATION = gql`
 `;
 
 const UploadPlantPresenter = () => {
-  const { register, handleSubmit, formState, errors, watch } = useForm({
+  const { register, handleSubmit, formState, errors } = useForm({
     mode: 'onChange',
   });
 
@@ -273,7 +291,7 @@ const UploadPlantPresenter = () => {
 
   const onCompleted = data => {
     history.push('/plant_feed');
-  }; 
+  };
 
   const [uploadPlants, { loading }] = useMutation(UPLOAD_PLANT_MUTATION, {
     onCompleted,
@@ -322,6 +340,9 @@ const UploadPlantPresenter = () => {
     console.log(data);
     uploadPlants({
       variables: {
+        category: data.category,
+        pot: data.pot,
+        soil: data.soil,
         title: data.title,
         caption: captionRemake,
         images: fileList,
@@ -340,7 +361,6 @@ const UploadPlantPresenter = () => {
       },
     });
     window.alert('Upload Complete');
-    // history.push('/');
   };
 
   const checkInputNum = e => {
@@ -348,6 +368,26 @@ const UploadPlantPresenter = () => {
       e.returnValue = false;
     }
   };
+
+  // FIXME:
+  // add Plant category
+
+  const categoryArr = [
+    { value: '관엽', text: '관엽' },
+    { value: '원예', text: '원예' },
+    { value: '허브', text: '허브' },
+    { value: '다육', text: '다육' },
+  ];
+  const potArr = [
+    { value: '독일 토분', text: '독일 토분' },
+    { value: '이태리 토분', text: '이태리 토분' },
+    { value: '플라스틱 화분', text: '플라스틱 화분' },
+  ];
+  const soilArr = [
+    { value: '흙 50', text: '흙 50 + 마사토 50' },
+    { value: '흙 70', text: '흙 70 + 마사토 30' },
+    { value: '흙 90', text: '흙 90 + 마사토 10' },
+  ];
 
   return (
     <Container>
@@ -363,6 +403,26 @@ const UploadPlantPresenter = () => {
           </HeaderContainer>
 
           <Form onSubmit={handleSubmit(onValid)}>
+            <SelectWrap>
+              <Select
+                register={register}
+                name="category"
+                placeholder="카테고리"
+                options={categoryArr}
+              />
+              <Select
+                register={register}
+                name="pot"
+                placeholder="화분"
+                options={potArr}
+              />
+              <Select
+                register={register}
+                name="soil"
+                placeholder="흙"
+                options={soilArr}
+              />
+            </SelectWrap>
             <Input
               ref={register({
                 required: 'Title is required.',

@@ -68,7 +68,11 @@ const Avatar = styled.img`
   }
 `;
 
-const Column = styled.div``;
+const Column = styled.div`
+  @media screen and (min-width: 1280px) {
+    width: 400px;
+  }
+`;
 
 const Username = styled.h3`
   font-size: 28px;
@@ -160,7 +164,6 @@ const ProfileBtn = styled(Button).attrs({
   color: #333;
   transition: all 0.3s;
   @media screen and (min-width: 1280px) {
-    width: 100%;
     &:hover {
       background: #333;
       color: ${props => props.theme.bgColor};
@@ -183,7 +186,7 @@ const ModifyLink = styled(Link)`
   font-weight: 600;
   transition: all 0.3s;
   @media screen and (min-width: 1280px) {
-    width: 100%;
+    width: 60%;
     &:hover {
       background: #333;
       color: ${props => props.theme.bgColor};

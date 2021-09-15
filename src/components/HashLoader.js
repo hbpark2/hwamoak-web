@@ -8,6 +8,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 70vh;
+  background: ${props => props.theme.bgColor};
 `;
 
 const SHashLoader = ({ size, color, screen }) => {

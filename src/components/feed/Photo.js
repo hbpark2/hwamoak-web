@@ -14,6 +14,11 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import Comments from './Comments';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+import { FadeIn } from '../../styles';
+
+SwiperCore.use([Navigation, Pagination]);
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -31,6 +36,17 @@ const PhotoContainer = styled.div`
   border-radius: 4px;
   margin: 0 auto;
   margin-bottom: 60px;
+  animation-name: ${FadeIn};
+  animation-duration: 0.5s;
+
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 16px;
+    color: #fff;
+  }
+  .swiper-pagination-bullet {
+    background: #fff;
+  }
 
   @media screen and (max-width: 640px) {
     border-left: none;
@@ -49,9 +65,13 @@ const Username = styled(FatText)`
   margin-left: 15px;
 `;
 
-const PhotoFile = styled.img`
+const PhotoFile = styled.div`
   min-width: 100%;
   max-width: 100%;
+  padding-bottom: 100%;
+  background: ${props => `url(${props.background})`};
+  background-size: cover;
+  background-position: center;
 `;
 
 const PhotoData = styled.div`
@@ -137,7 +157,21 @@ const Photo = ({
         </Link>
       </PhotoHeader>
 
-      <PhotoFile src={images[0].file} alt="" />
+      <Swiper
+        navigation={images.length > 1 ? true : false}
+        spaceBetween={0}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+      >
+        {images.map((item, index) => {
+          let makeKey = index;
+          return (
+            <SwiperSlide key={makeKey}>
+              <PhotoFile background={item.file} alt="image" key={makeKey} />
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
 
       <PhotoData>
         <PhotoActions>
