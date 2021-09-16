@@ -9,21 +9,18 @@ import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import Utils from 'utils/Utils';
-import { getBase64Format } from 'utils/base64';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/client';
 import Button from 'components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
-import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import { useHistory, useLocation, useParams } from 'react-router';
 import Gauge from '../UploadPlant/components/Gauge';
+import Loading from '../../../components/Loading';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
-import Loading from '../../../components/Loading';
 
 SwiperCore.use([Navigation, Pagination]);
 

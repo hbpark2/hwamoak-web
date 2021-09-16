@@ -72,6 +72,7 @@ export const client = new ApolloClient({
       Query: {
         fields: {
           seeWholePlantsFeed: offsetLimitPagination(),
+          seeFeed: offsetLimitPagination(),
         },
       },
     },

@@ -8,9 +8,10 @@ import Plant from 'components/feed/Plant';
 import { PageTitle } from 'components/PageTitle';
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SHashLoader from '../../components/HashLoader';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Container = styled.div`
   margin: 25px auto;
@@ -89,7 +90,12 @@ const PLANTS_FEED_QUERY = gql`
 `;
 
 const Home = () => {
-  const { data: photosData, loading: photoLoading } = useQuery(FEED_QUERY, {
+  const {
+    data: photosData,
+    loading: photoLoading,
+    fetchMore,
+    refetch: photoRefetch,
+  } = useQuery(FEED_QUERY, {
     variables: {
       offset: 0,
     },
@@ -102,6 +108,8 @@ const Home = () => {
     skip: 0,
   });
 
+  const [update, setUpdate] = useState(false);
+
   useEffect(() => {
     refetch();
 
@@ -109,6 +117,16 @@ const Home = () => {
       refetch();
     };
   }, [refetch]);
+
+  const onLoadMore = async () => {
+    setUpdate(true);
+    await fetchMore({
+      variables: {
+        offset: photosData?.seeFeed?.length,
+      },
+    });
+    setUpdate(false);
+  };
 
   return (
     <Container>
@@ -129,8 +147,20 @@ const Home = () => {
           </>
         )
       )}
-      {!photoLoading &&
-        photosData?.seeFeed?.map(photo => <Photo key={photo.id} {...photo} />)}
+
+      {!photoLoading && photosData?.seeFeed?.length > 0 && (
+        <InfiniteScroll
+          dataLength={photosData?.seeFeed?.length}
+          next={onLoadMore}
+          hasMore={true}
+        >
+          {photosData?.seeFeed?.map(photo => (
+            <Photo key={photo.id} refetch={photoRefetch} {...photo} />
+          ))}
+        </InfiniteScroll>
+      )}
+      {update && <SHashLoader size={34} />}
+
       <button onClick={() => logUserOut()}> Log out now !</button>
     </Container>
   );

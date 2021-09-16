@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useState } from 'react';
 import {
   faBookmark,
   faComment,
   faHeart,
   faPaperPlane,
 } from '@fortawesome/free-regular-svg-icons';
-import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart as SolidHeart,
+  faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FatText } from 'components/shared';
 import Avatar from 'components/Avatar';
@@ -19,15 +23,6 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { FadeIn } from '../../styles';
 
 SwiperCore.use([Navigation, Pagination]);
-
-const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
 
 const PhotoContainer = styled.div`
   background-color: #f6f5e8;
@@ -56,9 +51,15 @@ const PhotoContainer = styled.div`
 
 const PhotoHeader = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid rgb(239, 239, 239);
+`;
+
+const UserBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Username = styled(FatText)`
@@ -101,16 +102,95 @@ const Likes = styled(FatText)`
   margin-top: 15px;
 `;
 
+const EditBox = styled.div`
+  position: relative;
+`;
+
+const EditBtn = styled.button`
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 10px;
+`;
+
+const EditModal = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  left: -37px;
+  top: 32px;
+  width: 100px;
+  overflow: hidden;
+
+  background: ${props => props.theme.bgColor};
+  border-radius: 10px;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2), -3px -3px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+`;
+
+const ModalLqyer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+`;
+
+const ModifyWrap = styled.ul`
+  li {
+    width: 100%;
+  }
+`;
+
+const ActionBtn = styled.button`
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  /* color: ${props => (props.red ? props.theme.red : props.theme.green)}; */
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.5s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffe;
+  }
+`;
+
+const TOGGLE_LIKE_MUTATION = gql`
+  mutation toggleLike($id: Int!) {
+    toggleLike(id: $id) {
+      ok
+      error
+    }
+  }
+`;
+
+const DELETE_PHOTO_MUTATION = gql`
+  mutation deletePhoto($id: Int!) {
+    deletePhoto(id: $id) {
+      ok
+      error
+    }
+  }
+`;
+
 const Photo = ({
   id,
   user,
   images,
   isLiked,
+  isMine,
   likes,
   caption,
   commentNumber,
   comments,
+  refetch,
 }) => {
+  const [modal, setModal] = useState(false);
+
   const updateToggleLike = (cache, result) => {
     // console.log(cache, result);
     const {
@@ -139,6 +219,13 @@ const Photo = ({
     }
   };
 
+  const [deletePhoto] = useMutation(DELETE_PHOTO_MUTATION, {
+    variables: {
+      id,
+    },
+    onCompleted: async () => await refetch(),
+  });
+
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE_MUTATION, {
     variables: {
       id,
@@ -146,15 +233,51 @@ const Photo = ({
     update: updateToggleLike,
   });
 
+  const onDeleteBtnClick = () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      deletePhoto({
+        variables: {
+          id,
+        },
+      });
+    }
+  };
+
   return (
     <PhotoContainer key={id}>
       <PhotoHeader>
-        <Link to={`/users/${user.username}`}>
-          <Avatar lg url={user?.avatar} />
-        </Link>
-        <Link to={`/users/${user.username}`}>
-          <Username>{user?.username}</Username>
-        </Link>
+        <UserBox>
+          <Link to={`/users/${user.username}`}>
+            <Avatar lg url={user?.avatar} />
+          </Link>
+          <Link to={`/users/${user.username}`}>
+            <Username>{user?.username}</Username>
+          </Link>
+        </UserBox>
+        {isMine && (
+          <EditBox>
+            <EditBtn onClick={() => setModal(!modal)}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </EditBtn>
+            {modal && (
+              <>
+                <EditModal>
+                  <ModifyWrap>
+                    <li>
+                      <ActionBtn>수 정</ActionBtn>
+                    </li>
+                    <li>
+                      <ActionBtn red onClick={onDeleteBtnClick}>
+                        삭 제
+                      </ActionBtn>
+                    </li>
+                  </ModifyWrap>
+                </EditModal>
+                <ModalLqyer onClick={() => setModal(false)} />
+              </>
+            )}
+          </EditBox>
+        )}
       </PhotoHeader>
 
       <Swiper

@@ -30,7 +30,8 @@ export const lightTheme = {
   contentBg: 'rgba(246, 245, 232, 1)',
   contentBorder: '1px solid rgb(219, 219, 219)',
   borderColor: 'rgba(219, 219, 219,0.5)',
-
+  red: '#db9393',
+  green: '#a9c7ab',
   waterColor: 'rgba(92, 184, 255,0.3)',
   sunlightColor: 'rgba(255, 208, 99,0.3)',
   temperatureColor: 'rgba(255, 212, 217,0.3)',
@@ -85,6 +86,10 @@ export const GlobalStyles = createGlobalStyle`
 
     #wrapper{
     }
+
+    .infinite-scroll-component{
+      overflow:unset !important;
+    } 
 
     img{
 
