@@ -1,9 +1,10 @@
 import { gql, useMutation } from '@apollo/client';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import KaKaoLogin from 'react-kakao-login';
 import { logUserIn } from 'apollo';
 import AuthLayout from 'components/auth/AuthLayout';
 import BottomBox from 'components/auth/BottomBox';
@@ -17,6 +18,7 @@ import { PageTitle } from 'components/PageTitle';
 // import Logo from 'assets/flower-pot.png';
 import Logo from 'assets/hwamoak_logo.png';
 import routes from 'components/Routes/routes';
+import KakaoBtnImg from 'assets/kakao_login_btn.png';
 
 const SLogo = styled.img`
   display: block;
@@ -39,10 +41,20 @@ const SNSTitle = styled.span`
   opacity: 0.7;
 `;
 
-const FacebookLogin = styled.div`
-  color: #385285;
-  display: flex;
-  justify-content: center;
+const IconContainer = styled.div`
+  padding: 5px 0;
+`;
+
+// const FacebookLogin = styled.div`
+//   color: #385285;
+//   display: flex;
+//   justify-content: center;
+//   margin-bottom: 10px;
+// `;
+
+const KaKaoBtn = styled(KaKaoLogin)`
+  all: none !important;
+  cursor: pointer;
 `;
 
 const LOGIN_MUTATION = gql`
@@ -57,6 +69,7 @@ const LOGIN_MUTATION = gql`
 
 function Login() {
   const location = useLocation();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
@@ -72,6 +85,7 @@ function Login() {
       password: location?.state?.password || '',
     },
   });
+
   const onCompleted = data => {
     const {
       login: { ok, error, token },
@@ -85,9 +99,11 @@ function Login() {
       logUserIn(token);
     }
   };
+
   const [login, { loading }] = useMutation(LOGIN_MUTATION, {
     onCompleted,
   });
+
   const onSubmitValid = data => {
     if (loading) {
       return;
@@ -97,9 +113,32 @@ function Login() {
       variables: { email, password },
     });
   };
+
   const clearLoginError = () => {
     clearErrors('result');
   };
+
+
+  // 카카오 로그인
+  const onKakaoLoginSuccess = async response => {
+    await login({
+      variables: {
+        email: response?.profile?.kakao_account?.email,
+        password: '1234',
+      },
+    });
+
+    if (errors?.result?.message === '일치하는 가입정보가 없습니다.') {
+      history.push({
+        pathname: '/sign-up',
+        state: {
+          username: response?.profile?.kakao_account?.profile?.nickname,
+          email: response?.profile?.kakao_account?.email,
+        },
+      });
+    }
+  };
+
   return (
     <AuthLayout>
       <PageTitle title="Login" />
@@ -107,8 +146,10 @@ function Login() {
         <div>
           <SLogo src={Logo} alt="화목" />
         </div>
+
+        {/** Notification when do SignUp successfuly */}
         <Notification message={location?.state?.message} />
-        <form onSubmit={handleSubmit(onSubmitValid)}>
+        <form onSubmit={handleSubmit(onSubmitValid)} method="post">
           <Input
             ref={register({
               required: 'email is required',
@@ -145,15 +186,49 @@ function Login() {
         <Separator />
         <SNSContainer>
           <SNSTitle>SNS 계정으로 간편로그인</SNSTitle>
-          <FacebookLogin>
-            <FontAwesomeIcon icon={faFacebook} />
-          </FacebookLogin>
+          <IconContainer>
+            {/* <FacebookLogin
+              onClick={() => {
+                Kakao.API.request({
+                  url: '/v2/user/me',
+                  data: {
+                    property_keys: [
+                      'kakao_account.email',
+                      'kakao_account.profile.nickname',
+                    ],
+                  },
+                  success: function (response) {
+                    console.log(response);
+                  },
+                  fail: function (error) {
+                    console.log(error);
+                  },
+                });
+              }}
+            >
+              <FontAwesomeIcon icon={faFacebook} />
+            </FacebookLogin> */}
+
+            <KaKaoBtn
+              style={{
+                background: 'none',
+                width: 'auto',
+              }}
+              token={'262a66aa6a22631cd2aed750d572fa37'}
+              onSuccess={onKakaoLoginSuccess}
+              onFail={error => console.log(error)}
+              // onLogout={}
+            >
+              <img src={KakaoBtnImg} alt="kakao" />
+            </KaKaoBtn>
+          </IconContainer>
         </SNSContainer>
       </FormBox>
       <BottomBox
         cta="계정이 아직 없으신가요?"
         linkText="회원가입"
         link={routes.signUp}
+        // isSignup={true}
       />
     </AuthLayout>
   );

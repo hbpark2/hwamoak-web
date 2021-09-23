@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { faCamera, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,9 +9,14 @@ import Input from '../../components/auth/Input';
 import Button from '../../components/auth/Button';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import FormError from '../../components/auth/FormError';
+
+import Asset from 'assets/sakura.png';
 
 const Form = styled.form`
+  margin: 25px auto;
   margin-top: 30px;
+  max-width: 930px;
   @media screen and (min-width: 1280px) {
     margin-top: 100px;
   }
@@ -20,7 +26,7 @@ const AvatarWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px 0 40px;
   #imageUpload {
     display: none;
   }
@@ -90,6 +96,14 @@ const SuccessBtn = styled(Button)`
   }
 `;
 
+const ImageDeleteBtn = styled.button`
+  display: block;
+  padding: 10px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+  font-weight: 600;
+`;
+
 const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile(
     $firstName: String
@@ -117,25 +131,28 @@ const EDIT_PROFILE_MUTATION = gql`
 `;
 
 const Modify = () => {
-  const { register, handleSubmit, formState } = useForm({
-    mode: 'onChange',
-  });
+  const { register, handleSubmit, errors, setError, clearErrors, formState } =
+    useForm({
+      mode: 'onChange',
+    });
+  const [avatarReset, setAvatarReset] = useState(false);
   const [previewPhoto, setPreviewPhoto] = useState();
+  const [username, setUsername] = useState();
   const location = useLocation();
   const history = useHistory();
 
   const onUpdateFn = (cache, result) => {
     const {
       data: {
-        editProfile: { ok },
+        editProfile: { ok, error },
       },
     } = result;
 
-    // User:jake:
-    // avatar: "https://hwamoak.s3.ap-northeast-2.amazonaws.com/avatars/2-1631673404160-1-1624258057821-c968f651252dd479b6e68f4dd4ec8615.jpeg"
-    // id: 2
-    // username: "jake"
-    // __typename: "User"
+    if (!ok) {
+      return setError('result', {
+        message: error,
+      });
+    }
 
     if (ok) {
       cache.modify({
@@ -144,20 +161,31 @@ const Modify = () => {
           avatar(prev) {
             console.log(prev);
           },
+          username(prev) {
+            console.log(prev);
+          },
         },
       });
+      history.push(`/users/${username}`);
+    } else {
+      console.log(ok);
+      console.log(error);
     }
-
-    history.goBack();
   };
+
   const [editProfile, { loading }] = useMutation(EDIT_PROFILE_MUTATION, {
     update: onUpdateFn,
   });
 
-  const onFileChange = e => {
+  const onFileChange = (e, reset) => {
     const {
       target: { files },
     } = e;
+
+    if (reset) {
+      setAvatarReset(true);
+      return null;
+    }
 
     //미리보기 이미지
 
@@ -171,13 +199,20 @@ const Modify = () => {
   };
 
   const onValid = data => {
-    console.log(formState);
+    console.log(data.image[0]);
+    setUsername(data.username);
     editProfile({
       variables: {
         username: data.username,
-        avatar: data.image[0],
+        avatar: avatarReset ? null : data.image[0],
       },
     });
+  };
+
+  const onDeleteBtn = e => {
+    e.preventDefault();
+    setPreviewPhoto(Asset);
+    onFileChange(e, true);
   };
 
   return (
@@ -196,7 +231,8 @@ const Modify = () => {
           <input
             id="imageUpload"
             ref={register({
-              required: 'Image is required.',
+              required: false,
+              // required: 'Image is required.',
             })}
             name="image"
             type="file"
@@ -206,6 +242,7 @@ const Modify = () => {
           />
         </AvatarLayer>
       </AvatarWrap>
+      {/* <ImageDeleteBtn onClick={onDeleteBtn}>기본이미지로 변경</ImageDeleteBtn> */}
       <UserNameWrap>
         <UserNameInput
           ref={register({ required: false })}
@@ -213,8 +250,12 @@ const Modify = () => {
           type="text"
           placeholder="닉네임"
           defaultValue={location?.state?.username}
+          onChange={() => clearErrors()}
         />
       </UserNameWrap>
+
+      <FormError message={errors?.result?.message} />
+
       <SuccessBtn
         type="submit"
         value={loading ? 'Loading...' : '완료'}

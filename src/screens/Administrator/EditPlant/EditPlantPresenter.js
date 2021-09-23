@@ -14,7 +14,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import Button from 'components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
 import SunriseIcon from 'assets/sunrise.png';
-import { useHistory, useLocation, useParams } from 'react-router';
+import { useHistory,  } from 'react-router';
 import Gauge from '../UploadPlant/components/Gauge';
 import Loading from '../../../components/Loading';
 import { Swiper, SwiperSlide } from 'swiper/react';
