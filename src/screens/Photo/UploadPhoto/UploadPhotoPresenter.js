@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import React, { useState } from 'react';
@@ -9,6 +10,11 @@ import styled from 'styled-components';
 import { PageTitle } from '../../../components/PageTitle';
 import { FEED_PHOTO } from '../../../fragments';
 import Button from '../../../components/auth/Button';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+
+import 'swiper/swiper-bundle.css';
 
 const Container = styled.div`
   padding-bottom: 30px;

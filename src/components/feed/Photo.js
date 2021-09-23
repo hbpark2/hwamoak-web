@@ -39,6 +39,7 @@ const PhotoContainer = styled.div`
     font-size: 16px;
     color: #fff;
   }
+
   .swiper-pagination-bullet {
     background: #fff;
   }

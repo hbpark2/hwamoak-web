@@ -18,6 +18,12 @@ const CommentCount = styled.span`
   font-size: 12px;
 `;
 
+const CommentIptWrap = styled.div`
+  margin-top: 5px;
+`;
+
+const CommentInput = styled.input``;
+
 const CREATE_COMMENT = gql`
   mutation createComment($photoId: Int!, $payload: String!) {
     createComment(photoId: $photoId, payload: $payload) {
@@ -115,16 +121,16 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }) => {
           isMine={comment.isMine}
         />
       ))}
-      <div>
+      <CommentIptWrap>
         <form onSubmit={handleSubmit(onValid)}>
-          <input
+          <CommentInput
             ref={register({ required: true })}
             name="payload"
             type="text"
             placeholder="Write a comment..."
           />
         </form>
-      </div>
+      </CommentIptWrap>
     </CommentsContainer>
   );
 };

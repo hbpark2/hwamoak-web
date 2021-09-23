@@ -9,10 +9,22 @@ import TemperatureIcon from 'assets/temperature.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from '../../Administrator/UploadPlant/components/Gauge';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+SwiperCore.use([Navigation, Pagination]);
 
 const Container = styled.div`
   padding-bottom: 20px;
   /* background: url(${props => props.background}); */
+
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 24px;
+    color: ${props => props.theme.beige2};
+  }
+  .swiper-pagination-bullet {
+    background: ${props => props.theme.beige2};
+  }
 `;
 const Wrap = styled.div`
   position: relative;
@@ -158,6 +170,14 @@ const Username = styled.span`
   margin-left: 10px;
   margin-top: 10px;
 `;
+const PhotoFile = styled.div`
+  min-width: 100%;
+  max-width: 100%;
+  padding-bottom: 100%;
+  background: ${props => `url(${props.background})`};
+  background-size: cover;
+  background-position: center center;
+`;
 
 const PlantDetailPresenter = ({
   id,
@@ -209,10 +229,30 @@ const PlantDetailPresenter = ({
           </Title>
 
           <ImageWrap>
-            {images?.map((item, index) => {
+            {/* {images?.map((item, index) => {
               let imgKey = `plantImg${index}`;
               return <img key={imgKey} src={item.file} alt="" />;
-            })}
+            })} */}
+
+            <Swiper
+              navigation={images.length > 1 ? true : false}
+              spaceBetween={0}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+            >
+              {images.map((item, index) => {
+                let makeKey = index;
+                return (
+                  <SwiperSlide key={makeKey}>
+                    <PhotoFile
+                      background={item.file}
+                      alt="image"
+                      key={makeKey}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
           </ImageWrap>
 
           <Caption>
