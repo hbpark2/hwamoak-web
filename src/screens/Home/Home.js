@@ -25,6 +25,7 @@ const PlantsContainer = styled.div`
   overflow-x: scroll;
   padding: 10px 0;
   margin-bottom: 10px;
+  
   &::-webkit-scrollbar {
     width: 5px;
     height: 8px;

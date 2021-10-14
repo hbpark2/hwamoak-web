@@ -60,10 +60,12 @@ export const GlobalStyles = createGlobalStyle`
     }
     html{
       background-color:${props => props.theme.bgColor};
+      height:100%;
     }
 
     body{
       background-color:${props => props.theme.bgColor};      
+      height:auto;
       font-size:14px;
       /* font-family: 'Spoqa Han Sans Neo', 'Noto Sans KR','Open Sans', 'Malgun Gothic',
     '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif; */
@@ -84,15 +86,45 @@ export const GlobalStyles = createGlobalStyle`
 
     }
 
-    #wrapper{
+
+    .cursor {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #f6f5e8;
+      border-radius: 100%;
+      position: fixed;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: all 150ms ease;
+      transition-property:  opacity, background-color, transform, mix-blend-mode;
     }
+
+    .cursor--clicked {
+      transform: translate(-50%, -50%) scale(0.9);
+      background-color: #fefefe;
+    }
+
+    .cursor--link-hovered {
+      transform: translate(-50%, -50%) scale(1.25);
+      background-color: #fefefe;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* html, body {
+      cursor: none;
+    } */
 
     .infinite-scroll-component{
       overflow:unset !important;
     } 
 
     img{
-
       display:block;
     }
     input {
@@ -102,9 +134,6 @@ export const GlobalStyles = createGlobalStyle`
       all:unset;
     }
     
-    a {
-      text-decoration: none;
-      color:inherit;
-    }
+
 
 `;

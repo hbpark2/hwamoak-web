@@ -73,10 +73,8 @@ body {
   color: #454545;
   font-family: 'Spoqa Han Sans Neo', 'Noto Sans KR', 'Malgun Gothic',
     '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif;
-
 }
-textarea{
+textarea {
   font-family: 'Spoqa Han Sans Neo', 'Noto Sans KR', 'Malgun Gothic',
-  '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif;
+    '맑은 고딕', 'Apple SD Gothic Neo', '돋움', dotum, sans-serif;
 }
-

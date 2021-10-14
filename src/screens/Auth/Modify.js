@@ -193,6 +193,7 @@ const Modify = () => {
     reader.onload = () => {
       setPreviewPhoto(reader.result);
     };
+
     reader.readAsDataURL(files[0]);
 
     return null;

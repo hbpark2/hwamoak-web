@@ -150,16 +150,18 @@ function SingUp() {
   };
 
   useEffect(() => {
-    if (location?.state?.username && location?.state?.email) {
-      createAccount({
-        variables: {
-          firstName: '',
-          lastName: '',
-          username: location.state.username,
-          email: location.state.email,
-          password: '1234',
-        },
-      });
+    if (location?.state?.username) {
+      if (location?.state?.username && location?.state?.email) {
+        createAccount({
+          variables: {
+            firstName: '',
+            lastName: '',
+            username: location?.state?.username,
+            email: location?.state?.email,
+            password: '1234',
+          },
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -221,7 +223,7 @@ function SingUp() {
           <InputBox disable={location?.state?.username}>
             <SInput
               ref={register({
-                required: location.state.username
+                required: location?.state?.username
                   ? false
                   : 'Password is required.',
               })}

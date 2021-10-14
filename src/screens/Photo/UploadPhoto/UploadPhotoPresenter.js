@@ -92,6 +92,30 @@ const PlantImagesWrap = styled.div`
     margin: 0 auto;
     width: 300px;
   }
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    color: #333;
+    /* font-size: 16px !important; */
+  }
+  .swiper-pagination-bullet {
+    background: #333;
+    width: 7px;
+    height: 7px;
+  }
+  .swiper-slide {
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      width: 300px;
+    }
+  }
+  .swiper-wrapper {
+    align-items: center;
+  }
 `;
 
 const UploadPlantLabel = styled.label`
@@ -118,6 +142,15 @@ const UploadPlantLabel = styled.label`
   }
 `;
 
+const DeleteButton = styled.button`
+  display: block;
+  width: 100px;
+  text-align: center;
+  padding: 5px;
+  margin: 20px auto;
+  cursor: pointer;
+`;
+
 const PostButton = styled(Button)`
   height: 35px;
 `;
@@ -135,7 +168,8 @@ const UploadPhotoPresenter = () => {
   const { register, handleSubmit, formState } = useForm({
     mode: 'onChange',
   });
-  const [previewPhoto, setPreviewPhoto] = useState();
+  const [previewPhotos, setPreviewPhotos] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const history = useHistory();
 
@@ -161,19 +195,50 @@ const UploadPhotoPresenter = () => {
     update: updateUploadPhoto,
   });
 
-  const onFileChange = e => {
+  // const onFileChange = e => {
+  //   const {
+  //     target: { files },
+  //   } = e;
+
+  //   //미리보기 이미지
+
+  //   let reader = new FileReader();
+  //   reader.onload = () => {
+  //     setPreviewPhoto(reader.result);
+  //   };
+  //   reader.readAsDataURL(files[0]);
+
+  //   return null;
+  // };
+
+  const onFileChange = async e => {
     const {
       target: { files },
     } = e;
 
     //미리보기 이미지
+    let fileURLs = [];
 
-    let reader = new FileReader();
-    reader.onload = () => {
-      setPreviewPhoto(reader.result);
-    };
-    reader.readAsDataURL(files[0]);
+    let file;
+    let filesLength = files.length > 10 ? 10 : files.length;
 
+    for (let i = 0; i < filesLength; i++) {
+      file = files[i];
+
+      let reader = new FileReader();
+      reader.onload = () => {
+        fileURLs[i] = reader.result;
+        setPreviewPhotos([...previewPhotos, { src: fileURLs }]);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (files.length > 0) {
+      //  파일 확장자 && 용량 체크
+      const file = files[0];
+      setFileList([...fileList, file]);
+    }
+    // setImgLoading(true);
     return null;
   };
 
@@ -181,9 +246,15 @@ const UploadPhotoPresenter = () => {
     uploadPhoto({
       variables: {
         caption: data.caption,
-        images: [data.image[0]],
+        images: fileList,
       },
     });
+  };
+
+  const onDeleteButtonClick = (e, idx, imageId) => {
+    e.preventDefault();
+    setPreviewPhotos(prev => prev.filter((_, index) => index !== idx));
+    setFileList(prev => prev.filter((_, index) => index !== idx));
   };
 
   return (
@@ -200,9 +271,32 @@ const UploadPhotoPresenter = () => {
 
           <Form onSubmit={handleSubmit(onValid)}>
             <UploadPlantWrap>
-              {previewPhoto && (
+              {previewPhotos && (
                 <PlantImagesWrap>
-                  <img src={previewPhoto} alt="previewImage" />
+                  <Swiper
+                    navigation
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                  >
+                    {previewPhotos.map((item, index) => {
+                      let makeKey = index;
+                      return (
+                        <SwiperSlide key={makeKey}>
+                          {/* <ImageItem> */}
+                          <img src={item.src} alt="" />
+                          <DeleteButton
+                            onClick={e =>
+                              onDeleteButtonClick(e, index, item.id)
+                            }
+                          >
+                            삭제
+                          </DeleteButton>
+                          {/* </ImageItem> */}
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>{' '}
                 </PlantImagesWrap>
               )}
               <UploadPlantLabel htmlFor="imageUpload">
