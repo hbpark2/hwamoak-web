@@ -3,19 +3,19 @@ import { Route, Switch } from 'react-router';
 import { isLoggedInVar } from 'apollo';
 import { useReactiveVar } from '@apollo/client';
 import routes from './routes';
-import HashLoader from '../Components/common/HashLoader';
-import { CurrentContext } from '../Context/ContextStore';
-import Feed from '../Screens/Feed/Feed';
-import Login from '../Screens/Auth/Login';
-import PlantDetailContainer from '../Screens/Plant/PlantDetail/PlantDetailContainer';
-import Profile from '../Screens/Profile/Profile';
-import PlantsFeedContainer from '../Screens/Plant/PlantsFeed';
-import Modify from '../Screens/Auth/Modify';
-import UploadPhotoPresenter from '../Screens/Photo/UploadPhoto';
-import UploadPlantContainer from '../Screens/Administrator/UploadPlant';
-import EditPlantContainer from '../Screens/Administrator/EditPlant';
+import HashLoader from 'Components/common/HashLoader';
+import { CurrentContext } from 'Context/ContextStore';
+import Feed from 'Screens/Feed/Feed';
+import Login from 'Screens/Auth/Login';
+import PlantDetailContainer from 'Screens/Plant/PlantDetail/PlantDetailContainer';
+import Profile from 'Screens/Profile/Profile';
+import PlantsFeedContainer from 'Screens/Plant/PlantsFeed';
+import Modify from 'Screens/Auth/Modify';
+import UploadPhotoPresenter from 'Screens/Photo/UploadPhoto';
+import UploadPlantContainer from 'Screens/Administrator/UploadPlant';
+import EditPlantContainer from 'Screens/Administrator/EditPlant';
 
-import SignUp from '../Screens/Auth/SignUp';
+import SignUp from 'Screens/Auth/SignUp';
 
 const Routers = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);

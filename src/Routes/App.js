@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme, GlobalStyles } from 'styles';
 import { HelmetProvider } from 'react-helmet-async';
 import { client, darkModeVar } from 'apollo';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { StoreProvider } from 'Context/ContextStore';
 
 import Routers from './Routers';
@@ -17,10 +17,10 @@ const App = () => {
         <HelmetProvider>
           <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyles />
-            <Router>
+            <BrowserRouter>
               {/* <Header /> */}
               <Routers />
-            </Router>
+            </BrowserRouter>
           </ThemeProvider>
         </HelmetProvider>
       </StoreProvider>
