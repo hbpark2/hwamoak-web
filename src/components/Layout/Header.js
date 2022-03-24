@@ -98,11 +98,11 @@ const Header = () => {
                 </Link>
               </Icon>
             </IconContainer>
-          ) : (
-            <Link to={routes.home}>
-              <Button>로그인</Button>
-            </Link>
-          )}
+          ) : null
+          // <Link to={routes.home}>
+          //   <Button>로그인</Button>
+          // </Link>
+          }
         </Column>
       </Wrapper>
     </SHeader>
