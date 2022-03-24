@@ -1,17 +1,15 @@
 import { useQuery } from '@apollo/client';
-
-import gql from 'graphql-tag';
 import { logUserOut } from 'apollo';
-import Photo from 'components/feed/Photo';
-import Plant from 'components/feed/Plant';
-
-import { PageTitle } from 'components/PageTitle';
-import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from 'fragments';
+import Photo from 'Components/feed/Photo';
+import Plant from 'Components/feed/Plant';
+import { PageTitle } from 'Components/common/PageTitle';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SHashLoader from '../../components/HashLoader';
+import SHashLoader from '../../Components/common/HashLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { PLANTS_FEED_QUERY } from '../../Scheme/plantScheme';
+import { FEED_QUERY } from '../../Scheme/feedScheme';
 
 const Container = styled.div`
   margin: 25px auto;
@@ -25,7 +23,7 @@ const PlantsContainer = styled.div`
   overflow-x: scroll;
   padding: 10px 0;
   margin-bottom: 10px;
-  
+
   &::-webkit-scrollbar {
     width: 5px;
     height: 8px;
@@ -47,50 +45,7 @@ const MoreButtonWrap = styled.div`
   padding-right: 10px;
 `;
 
-const FEED_QUERY = gql`
-  query seeFeed($offset: Int!) {
-    seeFeed(offset: $offset) {
-      ...PhotoFragment
-      user {
-        username
-        avatar
-      }
-      caption
-      comments {
-        ...CommentFragment
-      }
-      createdAt
-      isMine
-    }
-  }
-  ${PHOTO_FRAGMENT}
-  ${COMMENT_FRAGMENT}
-`;
-
-const PLANTS_FEED_QUERY = gql`
-  query seePlantsFeed {
-    seePlantsFeed {
-      id
-      title
-      caption
-      water
-      sunlight
-      temperatureMin
-      temperatureMax
-      plantLikes
-      isLiked
-      user {
-        username
-        avatar
-      }
-      images {
-        file
-      }
-    }
-  }
-`;
-
-const Home = () => {
+const Feed = () => {
   const {
     data: photosData,
     loading: photoLoading,
@@ -101,6 +56,7 @@ const Home = () => {
       offset: 0,
     },
   });
+
   const {
     data: plantsData,
     loading: plantLoading,
@@ -160,6 +116,7 @@ const Home = () => {
           ))}
         </InfiniteScroll>
       )}
+
       {update && <SHashLoader size={34} />}
 
       <button onClick={() => logUserOut()}> Log out now !</button>
@@ -167,4 +124,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Feed;

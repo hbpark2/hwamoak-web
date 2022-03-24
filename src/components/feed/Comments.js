@@ -1,10 +1,10 @@
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import useUser from 'hooks/useUser';
+import useUser from 'Hooks/useUser';
 import Comment from './Comment';
+import { CREATE_COMMENT } from '../../Scheme/commentScheme';
 
 const CommentsContainer = styled.div`
   margin-top: 20px;
@@ -23,16 +23,6 @@ const CommentIptWrap = styled.div`
 `;
 
 const CommentInput = styled.input``;
-
-const CREATE_COMMENT = gql`
-  mutation createComment($photoId: Int!, $payload: String!) {
-    createComment(photoId: $photoId, payload: $payload) {
-      ok
-      id
-      error
-    }
-  }
-`;
 
 const Comments = ({ photoId, author, caption, commentNumber, comments }) => {
   const { data: userData } = useUser();

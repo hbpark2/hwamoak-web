@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import Home from 'screens/Home/Home';
-import Login from 'screens/Auth/Login';
-import SignUp from 'screens/Auth/SignUp';
-import routes from 'components/Routes/routes';
+import Feed from 'Screens/Feed/Feed';
+import Login from 'Screens/Auth/Login';
+import SignUp from 'Screens/Auth/SignUp';
+import routes from 'Routes/routes';
 
-import Profile from 'screens/Profile/Profile';
+import Profile from 'Screens/Profile/Profile';
 
 import { isLoggedInVar } from 'apollo';
 import { useReactiveVar } from '@apollo/client';
 import { useContext } from 'react';
 import { CurrentContext } from 'Context/ContextStore';
-import uploadPlant from 'screens/Administrator/UploadPlant';
-import PlantDetailContainer from 'screens/Plant/PlantDetail/PlantDetailContainer';
-import EditPlantContainer from '../../screens/Administrator/EditPlant';
-import PlantsFeedContainer from '../../screens/Plant/PlantsFeed';
-import Modify from '../../screens/Auth/Modify';
-import UploadPhoto from '../../screens/Photo/UploadPhoto';
-import HashLoader from '../HashLoader';
+import uploadPlant from 'Screens/Administrator/UploadPlant';
+import PlantDetailContainer from 'Screens/Plant/PlantDetail/PlantDetailContainer';
+import EditPlantContainer from '../Screens/Administrator/EditPlant';
+import PlantsFeedContainer from '../Screens/Plant/PlantsFeed';
+import Modify from '../Screens/Auth/Modify';
+import UploadPhoto from '../Screens/Photo/UploadPhoto';
+import HashLoader from '../Components/common/HashLoader';
 
 const Routers = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -26,7 +26,7 @@ const Routers = () => {
 
   return (
     <Switch>
-      <Route exact path={routes.home} component={isLoggedIn ? Home : Login} />
+      <Route exact path={routes.home} component={isLoggedIn ? Feed : Login} />
       {!isLoggedIn && <Route path={routes.signUp} component={SignUp} />}
       <Route path={`/plants/:plantId`} component={PlantDetailContainer} />
       <Route path={`/users/:username`} component={Profile} />

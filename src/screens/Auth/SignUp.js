@@ -1,19 +1,23 @@
 import { gql, useMutation } from '@apollo/client';
-import FormError from 'components/auth/FormError';
+import FormError from 'Components/auth/FormError';
 import { useForm } from 'react-hook-form';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import AuthLayout from 'components/auth/AuthLayout';
-import BottomBox from 'components/auth/BottomBox';
-import Button from 'components/auth/Button';
-import FormBox from 'components/auth/FormBox';
-import Input from 'components/auth/Input';
-import { PageTitle } from 'components/PageTitle';
-import routes from 'components/Routes/routes';
+import AuthLayout from 'Components/auth/AuthLayout';
+import BottomBox from 'Components/auth/BottomBox';
+import Button from 'Components/auth/Button';
+import FormBox from 'Components/auth/FormBox';
+import Input from 'Components/auth/Input';
+import { PageTitle } from 'Components/common/PageTitle';
+import routes from 'Routes/routes';
 import Logo from 'assets/hwamoak_logo.png';
 
 import { useEffect } from 'react';
 import { logUserIn } from '../../apollo';
+import {
+  LOGIN_MUTATION,
+  CREATE_ACCOUNT_MUTATION,
+} from '../../Scheme/userScheme';
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -42,37 +46,6 @@ const InputBox = styled.div`
   margin-bottom: 10px;
 `;
 const SInput = styled(Input)``;
-
-const LOGIN_MUTATION = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      ok
-      token
-      error
-    }
-  }
-`;
-
-const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccount(
-    $firstName: String!
-    $lastName: String
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    createAccount(
-      firstName: $firstName
-      lastName: $lastName
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      ok
-      error
-    }
-  }
-`;
 
 function SingUp() {
   const location = useLocation();
@@ -205,6 +178,7 @@ function SingUp() {
               type="text"
               placeholder="이메일"
               defaultValue={location?.state?.email}
+              readOnly={location?.state?.email}
             />
           </InputBox>
           <InputBox>

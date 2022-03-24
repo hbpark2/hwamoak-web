@@ -1,17 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import Layout from 'components/Layout/Layout';
-import { PageTitle } from 'components/PageTitle';
+import Layout from 'Components/Layout/Layout';
+import { PageTitle } from 'Components/common/PageTitle';
 import Logo from 'assets/hwamoak_logo.png';
-import Input from 'components/auth/Input';
+import Input from 'Components/auth/Input';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
-import Button from 'components/auth/Button';
+import { useMutation, gql } from '@apollo/client';
+import Button from 'Components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from './components/Gauge';
@@ -20,8 +19,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
-import Loading from '../../../components/Loading';
-import Select from '../../../components/Select';
+import Loading from '../../../Components/common/Loading';
+import Select from '../../../Components/common/Select';
+import { UPLOAD_PLANT_MUTATION } from '../../../Scheme/plantScheme';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -221,56 +221,6 @@ const SelectWrap = styled.div`
     border-radius: 5px;
     &:focus {
       outline: none;
-    }
-  }
-`;
-
-const UPLOAD_PLANT_MUTATION = gql`
-  mutation uploadPlants(
-    $category: String!
-    $pot: String!
-    $soil: String!
-    $title: String!
-    $caption: String
-    $images: [Upload]!
-    $sunlight: Int
-    $temperatureMin: Int
-    $temperatureMax: Int
-    $water: Int
-    $plantDivision: String
-    $plantClass: String
-    $plantOrder: String
-    $plantFamily: String
-    $plantGenus: String
-    $plantSpecies: String
-    $plantHome: String
-    $plantHabitat: String
-  ) {
-    uploadPlants(
-      category: $category
-      pot: $pot
-      soil: $soil
-      title: $title
-      caption: $caption
-      images: $images
-      sunlight: $sunlight
-      temperatureMin: $temperatureMin
-      temperatureMax: $temperatureMax
-      water: $water
-      plantDivision: $plantDivision
-      plantClass: $plantClass
-      plantOrder: $plantOrder
-      plantFamily: $plantFamily
-      plantGenus: $plantGenus
-      plantSpecies: $plantSpecies
-      plantHome: $plantHome
-      plantHabitat: $plantHabitat
-    ) {
-      title
-      caption
-      images {
-        file
-      }
     }
   }
 `;

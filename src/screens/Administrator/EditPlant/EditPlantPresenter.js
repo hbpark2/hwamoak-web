@@ -1,22 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import Layout from 'components/Layout/Layout';
-import { PageTitle } from 'components/PageTitle';
+import Layout from 'Components/Layout/Layout';
+import { PageTitle } from 'Components/common/PageTitle';
 import Logo from 'assets/hwamoak_logo.png';
-import Input from 'components/auth/Input';
+import Input from 'Components/auth/Input';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-import gql from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/client';
-import Button from 'components/auth/Button';
+
+import { gql, useMutation, useQuery } from '@apollo/client';
+import Button from 'Components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
 import SunriseIcon from 'assets/sunrise.png';
-import { useHistory,  } from 'react-router';
+import { useHistory } from 'react-router';
 import Gauge from '../UploadPlant/components/Gauge';
-import Loading from '../../../components/Loading';
+import Loading from '../../../Components/common/Loading';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 

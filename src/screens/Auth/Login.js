@@ -1,24 +1,22 @@
-import { gql, useMutation } from '@apollo/client';
-// import { faFacebook } from '@fortawesome/free-brands-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import KaKaoLogin from 'react-kakao-login';
 import { logUserIn } from 'apollo';
-import AuthLayout from 'components/auth/AuthLayout';
-import BottomBox from 'components/auth/BottomBox';
-import Button from 'components/auth/Button';
-import FormBox from 'components/auth/FormBox';
-import FormError from 'components/auth/FormError';
-import Input from 'components/auth/Input';
-import Notification from 'components/auth/Notification';
-import Separator from 'components/auth/Separator';
-import { PageTitle } from 'components/PageTitle';
-// import Logo from 'assets/flower-pot.png';
+import AuthLayout from 'Components/auth/AuthLayout';
+import BottomBox from 'Components/auth/BottomBox';
+import Button from 'Components/auth/Button';
+import FormBox from 'Components/auth/FormBox';
+import FormError from 'Components/auth/FormError';
+import Input from 'Components/auth/Input';
+import Notification from 'Components/auth/Notification';
+import Separator from 'Components/auth/Separator';
+import { PageTitle } from 'Components/common/PageTitle';
 import Logo from 'assets/hwamoak_logo.png';
-import routes from 'components/Routes/routes';
+import routes from 'Routes/routes';
 import KakaoBtnImg from 'assets/kakao_login_btn.png';
+import { LOGIN_MUTATION } from '../../Scheme/userScheme';
 
 const SLogo = styled.img`
   display: block;
@@ -55,16 +53,6 @@ const IconContainer = styled.div`
 const KaKaoBtn = styled(KaKaoLogin)`
   all: none !important;
   cursor: pointer;
-`;
-
-const LOGIN_MUTATION = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      ok
-      token
-      error
-    }
-  }
 `;
 
 function Login() {
@@ -118,16 +106,9 @@ function Login() {
     clearErrors('result');
   };
 
-
   // 카카오 로그인
   const onKakaoLoginSuccess = async response => {
-    await login({
-      variables: {
-        email: response?.profile?.kakao_account?.email,
-        password: '1234',
-      },
-    });
-
+    console.log(response);
     if (errors?.result?.message === '일치하는 가입정보가 없습니다.') {
       history.push({
         pathname: '/sign-up',
@@ -137,6 +118,14 @@ function Login() {
         },
       });
     }
+
+    // already have same email
+    await login({
+      variables: {
+        email: response?.profile?.kakao_account?.email,
+        password: '1234',
+      },
+    });
   };
 
   return (
@@ -185,30 +174,8 @@ function Login() {
         </form>
         <Separator />
         <SNSContainer>
-          <SNSTitle>SNS 계정으로 간편로그인</SNSTitle>
+          <SNSTitle>SNS 계정으로 간편로그인 / 회원가입</SNSTitle>
           <IconContainer>
-            {/* <FacebookLogin
-              onClick={() => {
-                Kakao.API.request({
-                  url: '/v2/user/me',
-                  data: {
-                    property_keys: [
-                      'kakao_account.email',
-                      'kakao_account.profile.nickname',
-                    ],
-                  },
-                  success: function (response) {
-                    console.log(response);
-                  },
-                  fail: function (error) {
-                    console.log(error);
-                  },
-                });
-              }}
-            >
-              <FontAwesomeIcon icon={faFacebook} />
-            </FacebookLogin> */}
-
             <KaKaoBtn
               style={{
                 background: 'none',

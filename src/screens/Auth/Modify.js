@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
-import Input from '../../components/auth/Input';
-import Button from '../../components/auth/Button';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
-import FormError from '../../components/auth/FormError';
+import Input from '../../Components/auth/Input';
+import Button from '../../Components/auth/Button';
+import { useMutation, gql } from '@apollo/client';
+import FormError from '../../Components/auth/FormError';
 
 import Asset from 'assets/sakura.png';
+import { EDIT_PROFILE_MUTATION } from '../../Scheme/userScheme';
 
 const Form = styled.form`
   margin: 25px auto;
@@ -102,32 +102,6 @@ const ImageDeleteBtn = styled.button`
   margin: 0 auto 20px;
   cursor: pointer;
   font-weight: 600;
-`;
-
-const EDIT_PROFILE_MUTATION = gql`
-  mutation editProfile(
-    $firstName: String
-    $lastName: String
-    $username: String
-    $email: String
-    $password: String
-    $bio: String
-    $avatar: Upload
-  ) {
-    editProfile(
-      firstName: $firstName
-      lastName: $lastName
-      username: $username
-      email: $email
-      password: $password
-      bio: $bio
-      avatar: $avatar
-    ) {
-      ok
-      id
-      error
-    }
-  }
 `;
 
 const Modify = () => {

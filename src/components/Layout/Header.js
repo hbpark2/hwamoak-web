@@ -4,18 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { isLoggedInVar } from 'apollo';
-import useUser from 'hooks/useUser';
-import routes from 'components/Routes/routes';
-import Avatar from '../Avatar';
-// import Logo from 'assets/flower-pot.png';
+import useUser from 'Hooks/useUser';
+import routes from 'Routes/routes';
+import Avatar from '../common/Avatar';
 import Logo from 'assets/hwamoak_logo.png';
 import addPlantImg from 'assets/addPlant.png';
 
 import { useContext } from 'react';
 import { CurrentContext } from 'Context/ContextStore';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
-
-//
 
 const SHeader = styled.header`
   width: 100%;
@@ -101,11 +98,11 @@ const Header = () => {
                 </Link>
               </Icon>
             </IconContainer>
-          ) : (
-            <Link to={routes.home}>
-              <Button>로그인</Button>
-            </Link>
-          )}
+          ) : null
+          // <Link to={routes.home}>
+          //   <Button>로그인</Button>
+          // </Link>
+          }
         </Column>
       </Wrapper>
     </SHeader>

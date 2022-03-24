@@ -10,18 +10,18 @@ import { offsetLimitPagination } from '@apollo/client/utilities';
 const TOKEN = 'token';
 const DARK_MODE = 'DARK_MODE';
 
-//SEEDUSER
+//  SEEDUSER
 export const SEED_USER = ['jake', 'tonny', 'baek'];
 
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 
-//로그인
+//  로그인
 export const logUserIn = token => {
   localStorage.setItem(TOKEN, token);
   isLoggedInVar(true);
 };
 
-//로그아웃
+//  로그아웃
 export const logUserOut = () => {
   localStorage.removeItem(TOKEN);
   isLoggedInVar(false);

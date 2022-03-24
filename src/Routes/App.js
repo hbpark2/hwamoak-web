@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { StoreProvider } from 'Context/ContextStore';
 import Routers from './Routers';
-import Header from '../Layout/Header';
+import Header from '../Components/Layout/Header';
 
 const App = () => {
   const darkMode = useReactiveVar(darkModeVar);

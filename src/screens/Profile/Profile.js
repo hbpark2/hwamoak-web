@@ -1,39 +1,25 @@
-import { useApolloClient, useMutation, useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { gql, useApolloClient, useMutation, useQuery } from '@apollo/client';
+
 import React from 'react';
 import { useParams } from 'react-router';
 import { PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
-import { FatText } from 'components/shared';
+import { FatText } from 'Components/common/shared';
 import {
   faHeart,
   faComment,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from 'components/auth/Button';
-import { PageTitle } from 'components/PageTitle';
-import useUser from 'hooks/useUser';
-import Layout from 'components/Layout/Layout';
+import Button from 'Components/auth/Button';
+import { PageTitle } from 'Components/common/PageTitle';
+import useUser from 'Hooks/useUser';
+import Layout from 'Components/Layout/Layout';
 import { Link } from 'react-router-dom';
-
-const FOLLOW_USER_MUTATION = gql`
-  mutation followUser($username: String!) {
-    followUser(username: $username) {
-      ok
-      error
-    }
-  }
-`;
-
-const UNFOLLOW_USER_MUTATION = gql`
-  mutation unfollowUser($username: String!) {
-    unfollowUser(username: $username) {
-      ok
-      error
-    }
-  }
-`;
+import {
+  FOLLOW_USER_MUTATION,
+  UNFOLLOW_USER_MUTATION,
+} from '../../Scheme/userScheme';
 
 const Header = styled.div`
   display: flex;

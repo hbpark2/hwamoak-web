@@ -12,15 +12,19 @@ import {
   faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FatText } from 'components/shared';
-import Avatar from 'components/Avatar';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
+import { FatText } from 'Components/common/shared';
+import Avatar from 'Components/common/Avatar';
+
+import { gql, useMutation } from '@apollo/client';
 import Comments from './Comments';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import { FadeIn } from '../../styles';
+import {
+  DELETE_PHOTO_MUTATION,
+  TOGGLE_LIKE_MUTATION,
+} from '../../Scheme/photoScheme';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -157,24 +161,6 @@ const ActionBtn = styled.button`
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
     color: #ffe;
-  }
-`;
-
-const TOGGLE_LIKE_MUTATION = gql`
-  mutation toggleLike($id: Int!) {
-    toggleLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
-
-const DELETE_PHOTO_MUTATION = gql`
-  mutation deletePhoto($id: Int!) {
-    deletePhoto(id: $id) {
-      ok
-      error
-    }
   }
 `;
 

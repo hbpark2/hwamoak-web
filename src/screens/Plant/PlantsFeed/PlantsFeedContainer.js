@@ -2,38 +2,8 @@
 import { gql, useQuery } from '@apollo/client';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { WHOLE_PLANTS_FEED_QUERY } from '../../../Scheme/plantScheme';
 import PlantsFeedPresenter from './PlantsFeedPresenter';
-
-const PLANTS_FEED_QUERY = gql`
-  query seeWholePlantsFeed($offset: Int) {
-    seeWholePlantsFeed(offset: $offset) {
-      id
-      title
-      caption
-      water
-      sunlight
-      temperatureMin
-      temperatureMax
-      plantDivision
-      plantClass
-      plantOrder
-      plantFamily
-      plantGenus
-      plantSpecies
-      plantHome
-      plantHabitat
-      plantLikes
-      isLiked
-      user {
-        username
-        avatar
-      }
-      images {
-        file
-      }
-    }
-  }
-`;
 
 const PlantsFeedContainer = () => {
   const {
@@ -41,7 +11,7 @@ const PlantsFeedContainer = () => {
     loading,
     fetchMore,
     refetch,
-  } = useQuery(PLANTS_FEED_QUERY);
+  } = useQuery(WHOLE_PLANTS_FEED_QUERY);
 
   const [update, setUpdate] = useState(false);
 

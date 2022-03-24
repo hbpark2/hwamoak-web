@@ -22,7 +22,8 @@ export const FadeIn = keyframes`
 `;
 
 export const lightTheme = {
-  accent: '#0095f6',
+  originAccent: '#0095f6',
+  accent: '#33658A',
   fontColor: 'rgb(38,38,38)',
   bgColor: '#fffef2',
   beige2: '#f6f5e8',
@@ -134,6 +135,4 @@ export const GlobalStyles = createGlobalStyle`
       all:unset;
     }
     
-
-
 `;

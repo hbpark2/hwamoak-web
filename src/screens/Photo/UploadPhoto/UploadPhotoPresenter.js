@@ -1,20 +1,18 @@
 /* eslint-disable no-unused-vars */
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import Logo from 'assets/hwamoak_logo.png';
 import styled from 'styled-components';
-
-import { PageTitle } from '../../../components/PageTitle';
-import { FEED_PHOTO } from '../../../fragments';
-import Button from '../../../components/auth/Button';
+import { PageTitle } from '../../../Components/common/PageTitle';
+import Button from '../../../Components/auth/Button';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
+import { UPLOAD_PHOTO_MUTATION } from '../../../Scheme/photoScheme';
 
 const Container = styled.div`
   padding-bottom: 30px;
@@ -153,15 +151,6 @@ const DeleteButton = styled.button`
 
 const PostButton = styled(Button)`
   height: 35px;
-`;
-
-const UPLOAD_PHOTO_MUTATION = gql`
-  mutation uploadPhoto($images: [Upload]!, $caption: String) {
-    uploadPhoto(images: $images, caption: $caption) {
-      ...FeedPhoto
-    }
-  }
-  ${FEED_PHOTO}
 `;
 
 const UploadPhotoPresenter = () => {

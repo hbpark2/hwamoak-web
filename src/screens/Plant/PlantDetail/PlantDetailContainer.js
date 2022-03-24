@@ -1,61 +1,14 @@
-import { useMutation, useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { gql, useMutation, useQuery } from '@apollo/client';
+
 import React, { useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { CurrentContext } from '../../../Context/ContextStore';
+import {
+  DELETE_PLANT_MUTATION,
+  SEE_PLANT_QUERY,
+  TOGGLE_PLANT_LIKE_MUTATION,
+} from '../../../Scheme/plantScheme';
 import PlantDetailPresenter from './PlantDetailPresenter';
-
-const SEE_PLANT_QUERY = gql`
-  query seePlant($id: Int!) {
-    seePlant(id: $id) {
-      id
-      category
-      pot
-      soil
-      title
-      caption
-      water
-      sunlight
-      temperatureMin
-      temperatureMax
-      plantDivision
-      plantClass
-      plantOrder
-      plantFamily
-      plantGenus
-      plantSpecies
-      plantHome
-      plantHabitat
-      plantLikes
-      isLiked
-      user {
-        username
-        avatar
-      }
-      images {
-        file
-      }
-    }
-  }
-`;
-
-const DELETE_PLANT_MUTATION = gql`
-  mutation deletePlant($id: Int!) {
-    deletePlant(id: $id) {
-      ok
-      error
-    }
-  }
-`;
-
-const TOGGLE_PLANT_LIKE_MUTATION = gql`
-  mutation togglePlantLike($id: Int!) {
-    togglePlantLike(id: $id) {
-      ok
-      error
-    }
-  }
-`;
 
 const PlantDetailContainer = () => {
   const history = useHistory();

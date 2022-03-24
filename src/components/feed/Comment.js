@@ -2,17 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FatText } from 'components/shared';
-import gql from 'graphql-tag';
+import { FatText } from 'Components/common/shared';
+import { DELETE_COMMENT } from '../../Scheme/commentScheme';
 import { useMutation } from '@apollo/client';
-
-const DELETE_COMMENT = gql`
-  mutation deleteComment($id: Int!) {
-    deleteComment(id: $id) {
-      ok
-    }
-  }
-`;
 
 const CommentContainer = styled.ul`
   display: flex;
