@@ -6,7 +6,7 @@ import { client, darkModeVar } from 'apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StoreProvider } from 'Context/ContextStore';
 
-import Routers from './routers';
+import Routers from './Routers';
 
 const App = () => {
   const darkMode = useReactiveVar(darkModeVar);
