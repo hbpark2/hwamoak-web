@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FatText } from 'Components/common/shared';
+import { FatText } from 'components/common/shared';
 import { DELETE_COMMENT } from '../../Scheme/commentScheme';
 import { useMutation } from '@apollo/client';
 

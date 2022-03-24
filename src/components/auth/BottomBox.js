@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { BaseBox } from 'Components/common/shared';
+import { BaseBox } from 'components/common/shared';
 import KakaoBtnImg from 'assets/kakao_login_medium_narrow.png';
 import { useHistory } from 'react-router';
 

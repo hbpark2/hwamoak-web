@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router';
 import Logo from 'assets/hwamoak_logo.png';
 import styled from 'styled-components';
-import { PageTitle } from '../../../Components/common/PageTitle';
-import Button from '../../../Components/auth/Button';
+import { PageTitle } from '../../../components/common/PageTitle';
+import Button from '../../../components/auth/Button';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';

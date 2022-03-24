@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import Layout from 'Components/Layout/Layout';
-import { PageTitle } from 'Components/common/PageTitle';
+import Layout from 'components/Layout/Layout';
+import { PageTitle } from 'components/common/PageTitle';
 import Logo from 'assets/hwamoak_logo.png';
-import Input from 'Components/auth/Input';
+import Input from 'components/auth/Input';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import Button from 'Components/auth/Button';
+import Button from 'components/auth/Button';
 import WaterIcon from 'assets/water-drop.png';
 import SunriseIcon from 'assets/sunrise.png';
 import Gauge from './components/Gauge';
@@ -19,8 +19,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 
 import 'swiper/swiper-bundle.css';
-import Loading from '../../../Components/common/Loading';
-import Select from '../../../Components/common/Select';
+import Loading from '../../../components/common/Loading';
+import Select from '../../../components/common/Select';
 import { UPLOAD_PLANT_MUTATION } from '../../../Scheme/plantScheme';
 
 SwiperCore.use([Navigation, Pagination]);

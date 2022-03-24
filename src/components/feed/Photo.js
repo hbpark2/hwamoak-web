@@ -12,8 +12,8 @@ import {
   faEllipsisV,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FatText } from 'Components/common/shared';
-import Avatar from 'Components/common/Avatar';
+import { FatText } from 'components/common/shared';
+import Avatar from 'components/common/Avatar';
 
 import { gql, useMutation } from '@apollo/client';
 import Comments from './Comments';

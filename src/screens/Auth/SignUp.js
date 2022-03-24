@@ -1,14 +1,14 @@
 import { gql, useMutation } from '@apollo/client';
-import FormError from 'Components/auth/FormError';
+import FormError from 'components/auth/FormError';
 import { useForm } from 'react-hook-form';
 import { useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import AuthLayout from 'Components/auth/AuthLayout';
-import BottomBox from 'Components/auth/BottomBox';
-import Button from 'Components/auth/Button';
-import FormBox from 'Components/auth/FormBox';
-import Input from 'Components/auth/Input';
-import { PageTitle } from 'Components/common/PageTitle';
+import AuthLayout from 'components/auth/AuthLayout';
+import BottomBox from 'components/auth/BottomBox';
+import Button from 'components/auth/Button';
+import FormBox from 'components/auth/FormBox';
+import Input from 'components/auth/Input';
+import { PageTitle } from 'components/common/PageTitle';
 import routes from 'Routes/routes';
 import Logo from 'assets/hwamoak_logo.png';
 

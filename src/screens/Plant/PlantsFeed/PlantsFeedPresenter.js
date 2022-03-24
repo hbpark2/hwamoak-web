@@ -1,9 +1,9 @@
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styled from 'styled-components';
-import SHashLoader from '../../../Components/common/SHashLoader';
-import Layout from '../../../Components/Layout/Layout';
-import { PageTitle } from '../../../Components/common/PageTitle';
+import SHashLoader from '../../../components/common/SHashLoader';
+import Layout from '../../../components/Layout/Layout';
+import { PageTitle } from '../../../components/common/PageTitle';
 import Plant from './components/Plant';
 
 const Container = styled.div`

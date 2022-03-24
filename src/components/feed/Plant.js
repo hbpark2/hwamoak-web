@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FatText } from 'Components/common/shared';
+import { FatText } from 'components/common/shared';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../styles';
 

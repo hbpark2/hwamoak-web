@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BaseBox } from 'Components/common/shared';
+import { BaseBox } from 'components/common/shared';
 
 const Container = styled(BaseBox)`
   display: flex;

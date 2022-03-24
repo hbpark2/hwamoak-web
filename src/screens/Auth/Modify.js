@@ -5,10 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router';
 import styled from 'styled-components';
-import Input from '../../Components/auth/Input';
-import Button from '../../Components/auth/Button';
+import Input from '../../components/auth/Input';
+import Button from '../../components/auth/Button';
 import { useMutation, gql } from '@apollo/client';
-import FormError from '../../Components/auth/FormError';
+import FormError from '../../components/auth/FormError';
 
 import Asset from 'assets/sakura.png';
 import { EDIT_PROFILE_MUTATION } from '../../Scheme/userScheme';

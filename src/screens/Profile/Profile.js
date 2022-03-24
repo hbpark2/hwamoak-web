@@ -4,17 +4,17 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { PHOTO_FRAGMENT } from 'fragments';
 import styled from 'styled-components';
-import { FatText } from 'Components/common/shared';
+import { FatText } from 'components/common/shared';
 import {
   faHeart,
   faComment,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from 'Components/auth/Button';
-import { PageTitle } from 'Components/common/PageTitle';
+import Button from 'components/auth/Button';
+import { PageTitle } from 'components/common/PageTitle';
 import useUser from 'Hooks/useUser';
-import Layout from 'Components/Layout/Layout';
+import Layout from 'components/Layout/Layout';
 import { Link } from 'react-router-dom';
 import {
   FOLLOW_USER_MUTATION,

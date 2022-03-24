@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 import { logUserOut } from 'apollo';
-import Photo from 'Components/feed/Photo';
-import Plant from 'Components/feed/Plant';
-import { PageTitle } from 'Components/common/PageTitle';
+import Photo from 'components/feed/Photo';
+import Plant from 'components/feed/Plant';
+import { PageTitle } from 'components/common/PageTitle';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SHashLoader from '../../Components/common/SHashLoader';
+import SHashLoader from '../../components/common/SHashLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { PLANTS_FEED_QUERY } from '../../Scheme/plantScheme';
 import { FEED_QUERY } from '../../Scheme/feedScheme';

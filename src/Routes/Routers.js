@@ -3,19 +3,19 @@ import { Route, Switch } from 'react-router';
 import { isLoggedInVar } from 'apollo';
 import { useReactiveVar } from '@apollo/client';
 import routes from './routes';
-import SHashLoader from 'Components/common/SHashLoader';
+import SHashLoader from 'components/common/SHashLoader';
 import { CurrentContext } from 'Context/ContextStore';
-import Feed from 'Screens/Feed/Feed';
-import Login from 'Screens/Auth/Login';
-import PlantDetailContainer from 'Screens/Plant/PlantDetail/PlantDetailContainer';
-import Profile from 'Screens/Profile/Profile';
-import PlantsFeedContainer from 'Screens/Plant/PlantsFeed';
-import Modify from 'Screens/Auth/Modify';
-import UploadPhotoPresenter from 'Screens/Photo/UploadPhoto';
-import UploadPlantContainer from 'Screens/Administrator/UploadPlant';
-import EditPlantContainer from 'Screens/Administrator/EditPlant';
+import Feed from 'screens/Feed/Feed';
+import Login from 'screens/Auth/Login';
+import PlantDetailContainer from 'screens/Plant/PlantDetail/PlantDetailContainer';
+import Profile from 'screens/Profile/Profile';
+import PlantsFeedContainer from 'screens/Plant/PlantsFeed';
+import Modify from 'screens/Auth/Modify';
+import UploadPhotoPresenter from 'screens/Photo/UploadPhoto';
+import UploadPlantContainer from 'screens/Administrator/UploadPlant';
+import EditPlantContainer from 'screens/Administrator/EditPlant';
 
-import SignUp from 'Screens/Auth/SignUp';
+import SignUp from 'screens/Auth/SignUp';
 
 const Routers = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
