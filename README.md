@@ -1,7 +1,3 @@
-# Hwamoak Web
+# Hwamoek Web
 
-- [ ] Router
-- [ ] Authentication
-- [ ] Arch.
-- [ ] Styles
-- [ ] Plant
+Welcome to Hwamoek
