@@ -4,7 +4,7 @@ import { createContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { SEED_USER } from 'apollo';
-import useUser from 'Hooks/useUser';
+import useUser from 'hooks/useUser';
 
 export const CurrentContext = createContext();
 

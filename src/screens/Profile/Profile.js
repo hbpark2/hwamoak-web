@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/auth/Button';
 import { PageTitle } from 'components/common/PageTitle';
-import useUser from 'Hooks/useUser';
+import useUser from 'hooks/useUser';
 import Layout from 'components/Layout/Layout';
 import { Link } from 'react-router-dom';
 import {

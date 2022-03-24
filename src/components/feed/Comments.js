@@ -2,7 +2,7 @@ import { useMutation, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import useUser from 'Hooks/useUser';
+import useUser from 'hooks/useUser';
 import Comment from './Comment';
 import { CREATE_COMMENT } from '../../Scheme/commentScheme';
 

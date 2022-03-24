@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { isLoggedInVar } from 'apollo';
-import useUser from 'Hooks/useUser';
+import useUser from 'hooks/useUser';
 import routes from 'Routes/routes';
 import Avatar from '../common/Avatar';
 import Logo from 'assets/hwamoak_logo.png';
