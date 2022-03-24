@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { StoreProvider } from 'Context/ContextStore';
 
 import Routers from './Routers';
+import Header from '../Components/Layout/Header';
 
 const App = () => {
   const darkMode = useReactiveVar(darkModeVar);
@@ -18,7 +19,7 @@ const App = () => {
           <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyles />
             <BrowserRouter>
-              {/* <Header /> */}
+              <Header />
               <Routers />
             </BrowserRouter>
           </ThemeProvider>
