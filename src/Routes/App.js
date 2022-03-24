@@ -5,7 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { client, darkModeVar } from 'apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StoreProvider } from 'Context/ContextStore';
-import Header from '../Components/Layout/Header';
+
 import Routers from './Routers';
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
           <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyles />
             <Router>
-              <Header />
+              {/* <Header /> */}
               <Routers />
             </Router>
           </ThemeProvider>
