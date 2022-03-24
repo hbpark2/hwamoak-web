@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router';
 import { isLoggedInVar } from 'apollo';
 import { useReactiveVar } from '@apollo/client';
 import routes from './routes';
-import HashLoader from 'Components/common/HashLoader';
+import SHashLoader from 'Components/common/SHashLoader';
 import { CurrentContext } from 'Context/ContextStore';
 import Feed from 'Screens/Feed/Feed';
 import Login from 'Screens/Auth/Login';
@@ -38,7 +38,7 @@ const Routers = () => {
         <Route path="/plant/edit/:plantId" component={EditPlantContainer} />
       )}
 
-      <Route component={() => <HashLoader screen />} />
+      <Route component={() => <SHashLoader screen />} />
     </Switch>
   );
 };

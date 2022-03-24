@@ -6,7 +6,7 @@ import { PageTitle } from 'Components/common/PageTitle';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SHashLoader from '../../Components/common/HashLoader';
+import SHashLoader from '../../Components/common/SHashLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { PLANTS_FEED_QUERY } from '../../Scheme/plantScheme';
 import { FEED_QUERY } from '../../Scheme/feedScheme';
