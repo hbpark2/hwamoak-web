@@ -204,6 +204,7 @@ function SingUp() {
               defaultValue={location?.state?.username ? '1234' : ''}
               name="password"
               type="password"
+              autoComplete="false"
               placeholder="비밀번호"
             />
           </InputBox>

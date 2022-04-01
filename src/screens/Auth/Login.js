@@ -108,7 +108,7 @@ function Login() {
 
   // 카카오 로그인
   const onKakaoLoginSuccess = async response => {
-    console.log(response);
+    // console.log(response);
     if (errors?.result?.message === '일치하는 가입정보가 없습니다.') {
       history.push({
         pathname: '/sign-up',
@@ -161,6 +161,7 @@ function Login() {
             onChange={clearLoginError}
             name="password"
             type="password"
+            autoComplete="false"
             placeholder="비밀번호"
             hasError={Boolean(errors?.password?.message)}
           />

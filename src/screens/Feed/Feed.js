@@ -11,7 +11,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { PLANTS_FEED_QUERY } from '../../Scheme/plantScheme';
 import { FEED_QUERY } from '../../Scheme/feedScheme';
 
-const Container = styled.div`
+const Container = styled.main`
   margin: 25px auto;
   max-width: 930px;
   width: 100%;
@@ -87,6 +87,7 @@ const Feed = () => {
 
   return (
     <Container>
+      <h2 className="blind">Feed Contents</h2>
       <PageTitle title="Home" />
       {plantLoading ? (
         <SHashLoader size={34} screen={true} />

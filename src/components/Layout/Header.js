@@ -34,6 +34,7 @@ const Wrapper = styled.div`
 `;
 
 const Column = styled.div``;
+const Navigation = styled.nav``;
 
 const IconContainer = styled.div`
   display: flex;
@@ -101,10 +102,12 @@ const Header = () => {
           <Link to="/">
             <h1>
               <SLogo src={Logo} alt="화목" />
+              <span className="blind">화목</span>
             </h1>
           </Link>
         </Column>
-        <Column>
+        <Navigation>
+          <h2 className="blind">GNB</h2>
           {
             isLoggedIn ? (
               <IconContainer>
@@ -137,9 +140,7 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <button onClick={() => logUserOut()}>
-                          로그아웃
-                        </button>
+                        <button onClick={() => logUserOut()}>로그아웃</button>
                       </li>
                     </ProfileMenu>
                   )}
@@ -150,7 +151,7 @@ const Header = () => {
             //   <Button>로그인</Button>
             // </Link>
           }
-        </Column>
+        </Navigation>
       </Wrapper>
     </SHeader>
   );

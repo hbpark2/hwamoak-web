@@ -56,9 +56,11 @@ export const darkTheme = {
 
 export const GlobalStyles = createGlobalStyle`
     ${reset}
+
     * {
       box-sizing:border-box;
     }
+
     html{
       background-color:${props => props.theme.bgColor};
       height:100%;
@@ -87,39 +89,11 @@ export const GlobalStyles = createGlobalStyle`
 
     }
 
-
-    .cursor {
-      width: 40px;
-      height: 40px;
-      border: 2px solid #f6f5e8;
-      border-radius: 100%;
-      position: fixed;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      transition: all 150ms ease;
-      transition-property:  opacity, background-color, transform, mix-blend-mode;
-    }
-
-    .cursor--clicked {
-      transform: translate(-50%, -50%) scale(0.9);
-      background-color: #fefefe;
-    }
-
-    .cursor--link-hovered {
-      transform: translate(-50%, -50%) scale(1.25);
-      background-color: #fefefe;
-    }
-
     a {
       text-decoration: none;
       color: #333;
     }
 
-    /* html, body {
-      cursor: none;
-    } */
 
     .infinite-scroll-component{
       overflow:unset !important;
@@ -134,5 +108,17 @@ export const GlobalStyles = createGlobalStyle`
     button{
       all:unset;
     }
-    
+  
+  	.blind {
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    z-index: -1;
+    border: 0;
+    width: 1px;
+    height: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+	}
+
 `;
