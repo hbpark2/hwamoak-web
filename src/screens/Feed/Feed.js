@@ -119,7 +119,7 @@ const Feed = () => {
 
       {update && <SHashLoader size={34} />}
 
-      <button onClick={() => logUserOut()}> Log out now !</button>
+      {/* <button onClick={() => logUserOut()}> Log out now !</button> */}
     </Container>
   );
 };

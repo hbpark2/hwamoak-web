@@ -295,9 +295,9 @@ const Photo = ({
             <PhotoAction>
               <FontAwesomeIcon icon={faComment} />
             </PhotoAction>
-            <PhotoAction>
+            {/* <PhotoAction>
               <FontAwesomeIcon icon={faPaperPlane} />
-            </PhotoAction>
+            </PhotoAction> */}
           </div>
           <div>
             <FontAwesomeIcon icon={faBookmark} />

@@ -2,12 +2,14 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 
 import React, { useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
+import SHashLoader from '../../../components/common/SHashLoader';
 import { CurrentContext } from '../../../Context/ContextStore';
 import {
   DELETE_PLANT_MUTATION,
   SEE_PLANT_QUERY,
   TOGGLE_PLANT_LIKE_MUTATION,
 } from '../../../Scheme/plantScheme';
+import Loading from '../components/Loading';
 import PlantDetailPresenter from './PlantDetailPresenter';
 
 const PlantDetailContainer = () => {
@@ -80,7 +82,7 @@ const PlantDetailContainer = () => {
   }, [plantData]);
 
   return loading ? (
-    'loading'
+    <Loading />
   ) : (
     <PlantDetailPresenter
       {...plantData?.seePlant}
